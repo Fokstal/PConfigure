@@ -14,5 +14,6 @@ namespace PConfigure.Model
 		public int CapacityMemory { get; set; }
 		public string? TypeConnect { get; set; }
 		public int Speed { get; set; }
+		public double Price { get; set; }
 	}
 }

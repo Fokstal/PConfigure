@@ -18,7 +18,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeBlockpower = "BLOCKPOWER";
 
-		public static bool AddNewValue(out string resultStr, string? name, int capacityPower, double CUA, int typeGPUPower)
+		public static bool AddNewValue(out string resultStr, string? name, int capacityPower, double CUA, int typeGPUPower, double price)
 		{
 			resultStr = $"Add new {codeBlockpower} is NOT success";
 
@@ -37,7 +37,62 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeBlockpower} is SUCCESS";
 
-					db.DataBlockpowers.Add(new Data_Blockpower() { Name = name, CapacityPower = capacityPower, CUA = CUA, TypeGPUPower = typeGPUPower });
+					db.DataBlockpowers.Add(new Data_Blockpower() { Name = name, CapacityPower = capacityPower, CUA = CUA, TypeGPUPower = typeGPUPower, Price = price });
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public static bool DeleteValue(Data_Blockpower value, out string resultStr)
+		{
+			resultStr = $"This {value.Name} in {codeBlockpower} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataBlockpowers.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataBlockpowers.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.Name} in {codeBlockpower} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool EditValue(out string resultStr, Data_Blockpower oldValue, string? name, int capacityPower, double CUA, int typeGPUPower, double price)
+		{
+			resultStr = $"This {oldValue.Name} in {codeBlockpower} is NOT exists";
+
+			if (CheckIsNull(name))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_Blockpower? value = db.DataBlockpowers.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.Name} in {codeBlockpower} has been CHANGED!";
+
+					value.Name = name;
+					value.CapacityPower = capacityPower;
+					value.CUA = CUA;
+					value.TypeGPUPower = typeGPUPower;
+					value.Price = price;
+
 					db.SaveChanges();
 
 					return true;
@@ -63,7 +118,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeCPU = "CPU";
 
-		public static bool AddNewValue(out string resultStr, string? model, string? modelName, string? socket, int frequency, int core, int cash, int TDP, double Price)
+		public static bool AddNewValue(out string resultStr, string? model, string? modelName, string? socket, int frequency, int core, int cash, int TDP, double price)
 		{
 			resultStr = $"Add new {codeCPU} is NOT success";
 
@@ -82,7 +137,64 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeCPU} is SUCCESS";
 
-					db.DataCPUs.Add(new Data_CPU() { Model = model, ModelName = modelName, Cash = cash, Core = core, Frequency = frequency, Price = Price, Socket = socket, TDP = TDP });
+					db.DataCPUs.Add(new Data_CPU() { Model = model, ModelName = modelName, Cash = cash, Core = core, Frequency = frequency, Price = price, Socket = socket, TDP = TDP });
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public static bool DeleteValue(Data_CPU value, out string resultStr)
+		{
+			resultStr = $"This {value.ModelName} in {codeCPU} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataCPUs.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataCPUs.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.ModelName} in {codeCPU} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool EditValue(out string resultStr, Data_CPU oldValue, string? model, string? modelName, string? socket, int frequency, int core, int cash, int TDP, double price)
+		{
+			resultStr = $"This {oldValue.ModelName} in {codeCPU} is NOT exists";
+
+			if (CheckIsNull(model, modelName, socket))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_CPU? value = db.DataCPUs.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.ModelName} in {codeCPU} has been CHANGED!";
+
+					value.TDP = TDP;
+					value.Price = price;
+					value.Frequency = frequency;
+					value.Model = model;
+					value.ModelName = modelName;
+					value.Cash = cash;
+					value.Core = core;
+
 					db.SaveChanges();
 
 					return true;
@@ -108,7 +220,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeGPU = "GPU";
 
-		public static bool AddNewValue(out string resultStr, string? name, int frequency, int capacityPower, int typeDDR, int typePower, int TDP, double price)
+		public static bool AddNewValue(out string resultStr, string? name, int frequency, int capacityMemory, int typeDDR, int typePower, int TDP, double price)
 		{
 			resultStr = $"Add new {codeGPU} is NOT success";
 
@@ -127,7 +239,7 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeGPU} is SUCCESS";
 
-					db.DataGPUs.Add(new Data_GPU() { Name = name, CapacityMemory = capacityPower, Frequency = frequency, TDP = TDP, Price = price, TypeDDR = typeDDR, TypePower = typePower });
+					db.DataGPUs.Add(new Data_GPU() { Name = name, CapacityMemory = capacityMemory, Frequency = frequency, TDP = TDP, Price = price, TypeDDR = typeDDR, TypePower = typePower });
 					db.SaveChanges();
 
 					return true;
@@ -135,6 +247,63 @@ namespace PConfigure.Model
 
 				return false;
 			}
+		}
+
+		public static bool EditValue(out string resultStr, Data_GPU oldValue, string? name, int frequency, int capacityMemory, int typeDDR, int typePower, int TDP, double price)
+		{
+			resultStr = $"This {oldValue.Name} in {codeGPU} is NOT exists";
+
+			if (CheckIsNull(name))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_GPU? value = db.DataGPUs.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.Name} in {codeGPU} has been CHANGED!";
+
+					value.Name = name;
+					value.Frequency = frequency;
+					value.CapacityMemory = capacityMemory;
+					value.TypeDDR = typeDDR;
+					value.TypePower = typePower;
+					value.TDP = TDP;
+					value.Price = price;
+
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public static bool DeleteValue(Data_GPU value, out string resultStr)
+		{
+			resultStr = $"This {value.Name} in {codeGPU} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataGPUs.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataGPUs.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.Name} in {codeGPU} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		public static List<Data_GPU> GetAllGPU()
@@ -153,7 +322,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeMemory = "Memory";
 
-		public static bool AddNewValue(out string resultStr, string? name, string? type, int capacityMemory, string? typeConnect, int speed)
+		public static bool AddNewValue(out string resultStr, string? name, string? type, int capacityMemory, string? typeConnect, int speed, double price)
 		{
 			resultStr = $"Add new {codeMemory} is NOT success";
 
@@ -172,7 +341,63 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeMemory} is SUCCESS";
 
-					db.DataMemories.Add(new Data_Memory() { Name = name, Type = type, CapacityMemory = capacityMemory, TypeConnect = typeConnect, Speed = speed });
+					db.DataMemories.Add(new Data_Memory() { Name = name, Type = type, CapacityMemory = capacityMemory, TypeConnect = typeConnect, Speed = speed, Price = price });
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public static bool DeleteValue(Data_Memory value, out string resultStr)
+		{
+			resultStr = $"This {value.Name} in {codeMemory} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataMemories.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataMemories.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.Name} in {codeMemory} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool EditValue(out string resultStr, Data_Memory oldValue, string? name, string? type, int capacityMemory, string? typeConnect, int speed, double price)
+		{
+			resultStr = $"This {oldValue.Name} in {codeMemory} is NOT exists";
+
+			if (CheckIsNull(name, type, typeConnect))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_Memory? value = db.DataMemories.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.Name} in {codeMemory} has been CHANGED!";
+
+					value.Name = name;
+					value.Type = type;
+					value.CapacityMemory = capacityMemory;
+					value.TypeConnect = typeConnect;
+					value.Speed = speed;
+					value.Price = price;
+
 					db.SaveChanges();
 
 					return true;
@@ -227,6 +452,65 @@ namespace PConfigure.Model
 			}
 		}
 
+		public static bool DeleteValue(Data_Motherboard value, out string resultStr)
+		{
+			resultStr = $"This {value.Name} in {codeMotherboard} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataMotherboards.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataMotherboards.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.Name} in {codeMotherboard} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool EditValue(out string resultStr, Data_Motherboard oldValue, string? name, string? typeATX, string? socket, string? chipset, string? typeDDR, string? typeGDDR, int countSATA3, int countM2, double price)
+		{
+			resultStr = $"This {oldValue.Name} in {codeMotherboard} is NOT exists";
+
+			if (CheckIsNull(name, typeATX, socket, chipset, typeDDR, typeGDDR))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_Motherboard? value = db.DataMotherboards.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.Name} in {codeMotherboard} has been CHANGED!";
+
+					value.Name = name;
+					value.TypeATX = typeATX;
+					value.Socket = socket;
+					value.Chipset = chipset;
+					value.TypeDDR = typeDDR;
+					value.TypeGDDR = typeGDDR;
+					value.CountSATA3 = countSATA3;
+					value.CountM2 = countM2;
+					value.Price = price;
+
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public static List<Data_Motherboard> GetAllMotherboard()
 		{
 			using (PConfigureContext db = new())
@@ -243,7 +527,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeRAM = "RAM";
 
-		public static bool AddNewValue(out string resultStr, string? name, int frequency, int typeDDR, int capacityPower, int TDP, double price)
+		public static bool AddNewValue(out string resultStr, string? name, int frequency, int typeDDR, int capacityMemory, int TDP, double price)
 		{
 			resultStr = $"Add new {codeRAM} is NOT success";
 
@@ -262,7 +546,63 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeRAM} is SUCCESS";
 
-					db.DataRAMs.Add(new Data_RAM() { Name = name, Frequency = frequency, TypeDDR = typeDDR, CapacityMemory = capacityPower, TDP = TDP, Price = price });
+					db.DataRAMs.Add(new Data_RAM() { Name = name, Frequency = frequency, TypeDDR = typeDDR, CapacityMemory = capacityMemory, TDP = TDP, Price = price });
+					db.SaveChanges();
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public static bool DeleteValue(Data_RAM value, out string resultStr)
+		{
+			resultStr = $"This {value.Name} in {codeRAM} is not exists";
+
+			using (PConfigureContext db = new())
+			{
+				bool checkIsExist = db.DataRAMs.Contains(value); ;
+
+				if (checkIsExist)
+				{
+					db.DataRAMs.Remove(value);
+					db.SaveChanges();
+
+					resultStr = $"This {value.Name} in {codeRAM} hase been delete";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool EditValue(out string resultStr, Data_RAM oldValue, string? name, int frequency, int typeDDR, int capacityMemory, int TDP, double price)
+		{
+			resultStr = $"This {oldValue.Name} in {codeRAM} is NOT exists";
+
+			if (CheckIsNull(name))
+			{
+				resultStr = $"Your data has a NULL values!";
+
+				return false;
+			}
+
+			using (PConfigureContext db = new())
+			{
+				Data_RAM? value = db.DataRAMs.FirstOrDefault(o => o.ID == oldValue.ID);
+
+				if (value is not null)
+				{
+					resultStr = $"This {oldValue.Name} in {codeRAM} has been CHANGED!";
+
+					value.Name = name;
+					value.Frequency = frequency;
+					value.TypeDDR = typeDDR;
+					value.CapacityMemory = capacityMemory;
+					value.Price = price;
+					value.TDP = TDP;
+
 					db.SaveChanges();
 
 					return true;

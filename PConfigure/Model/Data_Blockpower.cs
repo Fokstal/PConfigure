@@ -7,5 +7,6 @@
 		public int CapacityPower { get; set; }
 		public double CUA { get; set; }
 		public int TypeGPUPower { get; set; }
+		public double Price { get; set; }
 	}
 }
