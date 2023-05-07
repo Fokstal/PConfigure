@@ -27,10 +27,10 @@
 
         <StackPanel Grid.Row="0" Background="{x:Null}">
             <Image
-                Width="150"
-                Height="130"
+                Width="200"
+                Height="100"
                 Margin="30"
-                Source="/Source/Logo.png"
+                Source="/View/Logo.png"
                 Stretch="Fill" />
         </StackPanel>
 
@@ -47,28 +47,29 @@
                 Width="100"
                 Height="35"
                 Margin="40"
-                Command="{Binding OpenSignInCreatorPage}"
+                Command="{Binding ContinueCmd}"
                 CommandParameter="{Binding ElementName=StartupWnd}"
                 Content="Continue"
-                FontSize="20"
-                FontWeight="Bold" />
+                FontSize="18"
+                FontWeight="Bold"
+                Style="{Binding Source={StaticResource MainButtonStyle}}" />
 
         </StackPanel>
 
         <StackPanel Grid.Row="2">
 
             <Button
-                Width="40"
-                Height="40"
+                Width="30"
+                Height="30"
                 Margin="0,0,10,10"
                 HorizontalAlignment="Right"
                 Background="#662828"
                 Command="{Binding CloseWindowCmd}"
                 CommandParameter="{Binding ElementName=StartupWnd}"
                 Content="Exit"
-                FontSize="20"
-                Foreground="#FFFFFF"
-                IsCancel="True" />
+                FontSize="12"
+                IsCancel="True"
+                Style="{Binding Source={StaticResource ExitButtonStyle}}" />
 
         </StackPanel>
 

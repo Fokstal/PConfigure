@@ -11,6 +11,7 @@ namespace PConfigure.Data
 		public DbSet<Data_Memory> DataMemories { get; set; }
 		public DbSet<Data_Motherboard> DataMotherboards { get; set; }
 		public DbSet<Data_RAM> DataRAMs { get; set; }
+		public DbSet<Creator> Creators { get; set; }
 
 		public PConfigureContext()
 		{
@@ -19,7 +20,7 @@ namespace PConfigure.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=CompanyDB; Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=PConfigureDB; Trusted_Connection=True;");
 		}
 	}
 }

@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <Page.DataContext>
-        <VM:StartupWindowVM />
+        <VM:SignInPageVM />
     </Page.DataContext>
 
     <Page.Triggers>
@@ -68,7 +68,8 @@
                     Width="140"
                     Margin="80,0,60,0"
                     HorizontalAlignment="Center"
-                    MaxLength="15" />
+                    MaxLength="15"
+                    Text="{Binding Login}" />
 
                 <TextBlock
                     Width="20"
@@ -77,7 +78,8 @@
                     HorizontalAlignment="Right"
                     Background="Yellow"
                     FontSize="16"
-                    TextAlignment="Center">
+                    TextAlignment="Center"
+                    Visibility="Hidden">
                     !
                 </TextBlock>
 
@@ -95,25 +97,26 @@
 
                 <Grid>
                     <PasswordBox
-                    x:Name="PasswordBox"
-                    Width="140"
-                    Margin="80,0,0,0"
-                    MaxLength="20"
-                    Visibility="Visible" />
+                        x:Name="PasswordBox"
+                        Width="140"
+                        Margin="80,0,0,0"
+                        MaxLength="20"
+                        Visibility="Visible" />
 
                     <TextBox
-                    x:Name="PasswordTextBox"
-                    Width="140"
-                    Margin="80,0,0,0"
-                    MaxLength="20"
-                    Visibility="Hidden" />
+                        x:Name="PasswordTextBox"
+                        Width="140"
+                        Margin="80,0,0,0"
+                        MaxLength="20"
+                        Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="Hidden" />
                 </Grid>
-                
+
 
                 <CheckBox
                     Margin="10,2.5,0,0"
                     VerticalAlignment="Top"
-                    Command="{Binding ChangeVisibilityPass}"
+                    Command="{Binding ChangeVisibilityPassCmd}"
                     CommandParameter="{Binding ElementName=SignInCreatorPg}" />
 
                 <TextBlock
@@ -124,16 +127,19 @@
                     Background="Yellow"
                     FontSize="16"
                     Text="!"
-                    TextAlignment="Center" />
+                    TextAlignment="Center"
+                    Visibility="Hidden" />
             </WrapPanel>
 
             <Button
                 Width="80"
                 Background="#FF4B4B4B"
-                Command="{Binding OpenStartupPage}"
-                Content="Go back"
+                Command="{Binding SignInAccountCmd}"
+                CommandParameter="{Binding ElementName=PasswordBox}"
+                Content="Sign in"
                 FontSize="10"
-                Foreground="#FFA5A5A6" />
+                Foreground="GhostWhite"
+                Style="{Binding Source={StaticResource MainButtonStyle}}"/>
 
         </StackPanel>
 

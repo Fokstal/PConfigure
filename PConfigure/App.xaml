@@ -4,5 +4,107 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:PConfigure"
     StartupUri="View/StartupWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+
+        <!--  Main button style  -->
+        <Style x:Key="MainButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Opacity" Value="0.9" />
+            <Setter Property="FontFamily" Value="Cascadia Mono" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="Arial Rounded MT Bold" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+        <Style
+            x:Key="StartupPageRigthButtonStyle"
+            BasedOn="{StaticResource MainButtonStyle}"
+            TargetType="Button">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10 0 0 10">
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="StartupPageLeftButtonStyle"
+            BasedOn="{StaticResource MainButtonStyle}"
+            TargetType="Button">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="0 10 10 0">
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!--  Exit button style  -->
+        <Style x:Key="ExitButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="DimGray" />
+            <Setter Property="Opacity" Value="0.4" />
+            <Setter Property="FontFamily" Value="Cascadia Mono" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="Arial Rounded MT Bold" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8" />
+                    <Setter Property="Foreground" Value="{x:Null}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+    </Application.Resources>
 </Application>
