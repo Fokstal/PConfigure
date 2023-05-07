@@ -1,12 +1,139 @@
-﻿<Window x:Class="PConfigure.View.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PConfigure.View"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+﻿<Window
+    x:Class="PConfigure.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VM="clr-namespace:PConfigure.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PConfigure.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="MainWnd"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    Background="#383838"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <VM:MainWindowVM />
+    </Window.DataContext>
+
     <Grid>
-        
+
+        <StackPanel Width="500">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="30"
+                Foreground="GhostWhite"
+                Text="Determining the purpose of your PC" />
+
+            <TextBlock
+                Width="400"
+                Margin="0,0,0,100"
+                VerticalAlignment="Center"
+                FontSize="16"
+                Foreground="GhostWhite"
+                TextWrapping="Wrap">
+                Before you start choosing components for your PC,
+                you need to determine exactly what you want to use
+                your computer for. For example, if you plan to use
+                your PC for gaming, you should choose components with
+                high performance. But if you are planning to use your
+                computer for work, you may need a large amount of memory
+                or a powerful processor for computing. Accordingly, you
+                should choose each component based on your tasks. This
+                will help you avoid overpaying for performance or features
+                of the PC that will be barely used.
+            </TextBlock>
+
+            <Image
+                Width="300"
+                Height="100"
+                Margin="0,0,0,20"
+                VerticalAlignment="Bottom"
+                Source="/View/Logo_Bad.png" />
+        </StackPanel>
+
+        <Grid
+            x:Name="BurgerMenu"
+            Width="50"
+            HorizontalAlignment="Left"
+            Background="#F2272727">
+
+            <Button
+                x:Name="BurgerMenuBtn"
+                Width="30"
+                Height="30"
+                Margin="0,5"
+                VerticalAlignment="Top"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                Command="{Binding ExpendedBurgerMenuCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}"
+                FontSize="30"
+                FontWeight="ExtraBold"
+                Foreground="#223949"
+                RenderTransformOrigin="0.5,0.5">
+
+                <Button.RenderTransform>
+                    <RotateTransform Angle="0" />
+                </Button.RenderTransform>
+
+                <StackPanel>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Width="26"
+                        Height="5"
+                        Margin="0,0,0,5"
+                        Background="#223949" />
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Height="5"
+                        Background="#223949" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Height="5"
+                        Margin="0,5,0,0"
+                        Background="#223949" />
+
+                </StackPanel>
+            </Button>
+
+            <StackPanel Height="200" HorizontalAlignment="Center">
+
+                <TextBlock
+                    x:Name="InformationTextBlock"
+                    HorizontalAlignment="Center"
+                    Foreground="GhostWhite"
+                    Text="Information"
+                    Visibility="Hidden" />
+
+                <TextBlock
+                    x:Name="CatalogTextBlock"
+                    HorizontalAlignment="Center"
+                    Foreground="GhostWhite"
+                    Text="Catalog"
+                    Visibility="Hidden" />
+
+                <TextBlock
+                    x:Name="ConfigureTextBlock"
+                    HorizontalAlignment="Center"
+                    Foreground="GhostWhite"
+                    Text="Configure"
+                    Visibility="Hidden" />
+
+            </StackPanel>
+
+            <Button
+                Width="15"
+                Height="15"
+                Margin="0,0,0,10"
+                VerticalAlignment="Bottom" />
+
+        </Grid>
+
     </Grid>
 </Window>
