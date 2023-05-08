@@ -14,45 +14,40 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="{Binding Source={x:Static SystemParameters.WindowGlassBrush}}" />
+        </Style>
+    </Window.Resources>
+
     <Window.DataContext>
         <VM:MainWindowVM />
     </Window.DataContext>
-
     <Grid>
 
-        <StackPanel Width="500">
-            <TextBlock
-                HorizontalAlignment="Center"
-                FontSize="30"
-                Foreground="GhostWhite"
-                Text="Determining the purpose of your PC" />
+        <Grid
+            x:Name="ContentGrid"
+            Margin="50,0,0,0"
+            Focusable="True">
 
-            <TextBlock
-                Width="400"
-                Margin="0,0,0,100"
-                VerticalAlignment="Center"
-                FontSize="16"
-                Foreground="GhostWhite"
-                TextWrapping="Wrap">
-                Before you start choosing components for your PC,
-                you need to determine exactly what you want to use
-                your computer for. For example, if you plan to use
-                your PC for gaming, you should choose components with
-                high performance. But if you are planning to use your
-                computer for work, you may need a large amount of memory
-                or a powerful processor for computing. Accordingly, you
-                should choose each component based on your tasks. This
-                will help you avoid overpaying for performance or features
-                of the PC that will be barely used.
+            <TextBlock>
+
+                <TextBlock.InputBindings>
+                    <MouseBinding
+                        Command="{Binding HideBurgerMenuCmd}"
+                        CommandParameter="{Binding ElementName=MainWnd}"
+                        Gesture="LeftClick" />
+                </TextBlock.InputBindings>
+
+                <Frame
+                    x:Name="ContentFrame"
+                    Width="500"
+                    Margin="120,0"
+                    NavigationUIVisibility="Hidden" />
             </TextBlock>
 
-            <Image
-                Width="300"
-                Height="100"
-                Margin="0,0,0,20"
-                VerticalAlignment="Bottom"
-                Source="/View/Logo_Bad.png" />
-        </StackPanel>
+        </Grid>
+
 
         <Grid
             x:Name="BurgerMenu"
@@ -102,28 +97,34 @@
                 </StackPanel>
             </Button>
 
-            <StackPanel Height="200" HorizontalAlignment="Center">
-
-                <TextBlock
+            <StackPanel
+                x:Name="BtnListStackpanel"
+                Height="200"
+                HorizontalAlignment="Center"
+                Visibility="Hidden">
+                <Button
                     x:Name="InformationTextBlock"
-                    HorizontalAlignment="Center"
-                    Foreground="GhostWhite"
-                    Text="Information"
-                    Visibility="Hidden" />
+                    BorderBrush="LightBlue"
+                    Command="{Binding ShowInformationPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Information"
+                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
 
-                <TextBlock
+                <Button
                     x:Name="CatalogTextBlock"
-                    HorizontalAlignment="Center"
-                    Foreground="GhostWhite"
-                    Text="Catalog"
-                    Visibility="Hidden" />
+                    BorderBrush="LightYellow"
+                    Command="{Binding ShowCatalogPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Catalog"
+                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
 
-                <TextBlock
+                <Button
                     x:Name="ConfigureTextBlock"
-                    HorizontalAlignment="Center"
-                    Foreground="GhostWhite"
-                    Text="Configure"
-                    Visibility="Hidden" />
+                    BorderBrush="LightCoral"
+                    Command="{Binding ShowConfigurePageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Configure"
+                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
 
             </StackPanel>
 
