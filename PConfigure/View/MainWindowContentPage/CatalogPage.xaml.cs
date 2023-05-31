@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 
 namespace PConfigure.View.MainWindowContentPage
 {
-    /// <summary>
-    /// Логика взаимодействия для CatalogPage.xaml
-    /// </summary>
-    public partial class CatalogPage : Page
-    {
-        public CatalogPage()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for CatalogPage.xaml
+	/// </summary>
+	public partial class CatalogPage : Page
+	{
+		public CatalogPage()
+		{
+			InitializeComponent();
+		}
+	}
 }

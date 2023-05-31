@@ -7,7 +7,7 @@
 		public int Frequency { get; set; }
 		public int TypeDDR { get; set; }
 		public int CapacityMemory { get; set; }
-		public int TDP { get; set; }
+		public double TDP { get; set; }
 		public double Price { get; set; }
 	}
 }

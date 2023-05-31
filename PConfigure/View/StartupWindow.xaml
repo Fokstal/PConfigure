@@ -52,7 +52,7 @@
                 Content="Continue"
                 FontSize="18"
                 FontWeight="Bold"
-                Style="{Binding Source={StaticResource MainButtonStyle}}" />
+                Style="{StaticResource MainButtonStyle}" />
 
         </StackPanel>
 
@@ -69,7 +69,7 @@
                 Content="Exit"
                 FontSize="12"
                 IsCancel="True"
-                Style="{Binding Source={StaticResource ExitButtonStyle}}" />
+                Style="{StaticResource ExitButtonStyle}" />
 
         </StackPanel>
 

@@ -1,10 +1,12 @@
-﻿using PConfigure.View;
+﻿using PConfigure.Addition;
+using PConfigure.View;
 
 namespace PConfigure.ViewModel
 {
-	internal class StartupPageVM
+    internal class StartupVM
 	{
-		// Fields
+		#region Select Acc VM
+
 		public static bool rememberChoice = false;
 
 		private readonly RelayCommand _checkedRememberChoice = new(o =>
@@ -20,10 +22,9 @@ namespace PConfigure.ViewModel
 				rememberChoice = true;
 				return;
 			}
-			
+
 		});
 
-		// Properties
 
 		public RelayCommand CheckedRememberChoice { get => _checkedRememberChoice; }
 		public RelayCommand SelectUserAccCmd
@@ -48,5 +49,7 @@ namespace PConfigure.ViewModel
 				StartupWindowVM.ChoiceAccount = "2";
 			});
 		}
+
+		#endregion
 	}
 }

@@ -4,33 +4,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:VM="clr-namespace:PConfigure.ViewModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:PConfigure.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="MainWnd"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="1200"
+    Height="700"
     Background="#383838"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
-    <Window.Resources>
-        <Style TargetType="Window">
-            <Setter Property="Background" Value="{Binding Source={x:Static SystemParameters.WindowGlassBrush}}" />
-        </Style>
-    </Window.Resources>
-
     <Window.DataContext>
-        <VM:MainWindowVM />
+        <VM:MainVM />
     </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadConnectToDBCmd}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
 
         <Grid
             x:Name="ContentGrid"
-            Margin="50,0,0,0"
+            HorizontalAlignment="Center"
             Focusable="True">
 
-            <TextBlock>
+            <TextBlock Padding="0">
 
                 <TextBlock.InputBindings>
                     <MouseBinding
@@ -39,15 +42,12 @@
                         Gesture="LeftClick" />
                 </TextBlock.InputBindings>
 
-                <Frame
-                    x:Name="ContentFrame"
-                    Width="500"
-                    Margin="120,0"
-                    NavigationUIVisibility="Hidden" />
+                <Grid Width="1000">
+                    <Frame x:Name="ContentFrame" NavigationUIVisibility="Hidden" />
+                </Grid>
             </TextBlock>
 
         </Grid>
-
 
         <Grid
             x:Name="BurgerMenu"
@@ -68,7 +68,8 @@
                 FontSize="30"
                 FontWeight="ExtraBold"
                 Foreground="#223949"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="0.5,0.5"
+                Style="{x:Null}">
 
                 <Button.RenderTransform>
                     <RotateTransform Angle="0" />
@@ -108,7 +109,7 @@
                     Command="{Binding ShowInformationPageCmd}"
                     CommandParameter="{Binding ElementName=MainWnd}"
                     Content="Information"
-                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
+                    Style="{StaticResource BurgerMenuBtnStyle}" />
 
                 <Button
                     x:Name="CatalogTextBlock"
@@ -116,17 +117,25 @@
                     Command="{Binding ShowCatalogPageCmd}"
                     CommandParameter="{Binding ElementName=MainWnd}"
                     Content="Catalog"
-                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
-
-                <Button
-                    x:Name="ConfigureTextBlock"
-                    BorderBrush="LightCoral"
-                    Command="{Binding ShowConfigurePageCmd}"
-                    CommandParameter="{Binding ElementName=MainWnd}"
-                    Content="Configure"
-                    Style="{Binding Source={StaticResource BurgerMenuBtnStyle}}" />
+                    Style="{StaticResource BurgerMenuBtnStyle}" />
 
             </StackPanel>
+
+            <Button
+                Width="30"
+                Height="30"
+                Margin="0,0,0,100"
+                VerticalAlignment="Bottom"
+                Command="{Binding OpenBasketCmd}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}"
+                ToolTip="MaterialDesignFloatingActionSecondaryButton">
+                <materialDesign:PackIcon
+                    Width="15"
+                    Height="15"
+                    Foreground="PapayaWhip"
+                    Kind="Basket" />
+            </Button>
 
             <Button
                 Width="15"

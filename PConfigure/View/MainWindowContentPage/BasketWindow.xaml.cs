@@ -10,19 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PConfigure.View.MainWindowContentPage
 {
-    /// <summary>
-    /// Логика взаимодействия для ConfigurePage.xaml
-    /// </summary>
-    public partial class ConfigurePage : Page
-    {
-        public ConfigurePage()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for Window1.xaml
+	/// </summary>
+	public partial class BasketWindow : Window
+	{
+		public BasketWindow()
+		{
+			InitializeComponent();
+		}
+	}
 }

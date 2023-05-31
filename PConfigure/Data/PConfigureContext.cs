@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PConfigure.Model;
+using PConfigure.Model.ModelData;
 
 namespace PConfigure.Data
 {
-	internal class PConfigureContext : DbContext
+    internal class PConfigureContext : DbContext
 	{
 		public DbSet<Data_Blockpower> DataBlockpowers { get; set; }
 		public DbSet<Data_CPU> DataCPUs { get; set; }

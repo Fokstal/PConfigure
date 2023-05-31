@@ -1,11 +1,12 @@
-﻿using PConfigure.View;
+﻿using PConfigure.Addition;
+using PConfigure.View;
 
 namespace PConfigure.ViewModel
 {
-    class StartupWindowVM
-    {
+	class StartupWindowVM
+	{
 		// Fields
-		private static string choiceAccount;
+		private static string? choiceAccount;
 
 
 		private readonly RelayCommand _closeWindowCmd = new(o =>

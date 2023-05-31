@@ -1,5 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using PConfigure.Data;
 
 namespace PConfigure.Model
@@ -12,6 +19,71 @@ namespace PConfigure.Model
 
 			return false;
 		}
+
+
+		#region All item
+
+		public static List<string> GetNameAllItem()
+		{
+			List<string> listNameItem = new List<string>();
+
+			List<IEnumerable<object>> listItems = GetAllItem(out List<Type> listNameTypeItem);
+
+			int i = 0;
+
+			foreach (var listItem in listItems)
+			{
+				List<string> listName = GetNameFromList(listItem);
+
+				string t = listNameTypeItem[i].Name;
+
+				listNameItem.Add(t + "");
+				i++;
+
+				listName.Add("\n");
+
+				foreach (var name in listName)
+				{
+					listNameItem.Add(name);
+				}
+
+				listName.Add("\n");
+			}
+
+			return listNameItem;
+		}
+		private static List<string> GetNameFromList(IEnumerable<object> listObj)
+		{
+			List<string> listName = new List<string>();
+
+			List<string> names = listObj.Select(obj => obj.GetType().GetProperty("Name")?.GetValue(obj, null) as string).ToList();
+
+			return names;
+		}
+		public static List<IEnumerable<object>> GetAllItem(out List<Type> listNameTypeItem)
+		{
+			var listBlockpower = GetAllBlockpower();
+			var listCPU = GetAllCPU();
+			var listGPU = GetAllGPU();
+			var listMemory = GetAllMemory();
+			var listMotherboard = GetAllMotherboard();
+			var listRAM = GetAllRAM();
+
+			listNameTypeItem = new List<Type>()
+			{
+				listBlockpower[0].GetType(),
+				listGPU[0].GetType(),
+				listCPU[0].GetType(),
+				listMemory[0].GetType(),
+				listMotherboard[0].GetType(),
+				listRAM[0].GetType()
+			};
+
+			return new List<IEnumerable<object>>() { listBlockpower, listCPU, listGPU, listMemory, listMotherboard, listRAM };
+		}
+
+		#endregion
+
 
 
 		#region BlockPower
@@ -118,11 +190,11 @@ namespace PConfigure.Model
 
 		private static readonly string codeCPU = "CPU";
 
-		public static bool AddNewValue(out string resultStr, string? model, string? modelName, string? socket, int frequency, int core, int cash, int TDP, double price)
+		public static bool AddNewValue(out string resultStr, string? model, string? name, string? socket, double frequency, int core, int cash, int TDP, double price)
 		{
 			resultStr = $"Add new {codeCPU} is NOT success";
 
-			if (CheckIsNull(model, modelName, socket))
+			if (CheckIsNull(model, name, socket))
 			{
 				resultStr = $"Your data has a NULL values!";
 
@@ -131,13 +203,13 @@ namespace PConfigure.Model
 
 			using (PConfigureContext db = new())
 			{
-				bool checkIsExist = db.DataCPUs.Any(o => o.ModelName == modelName);
+				bool checkIsExist = db.DataCPUs.Any(o => o.Name == name);
 
 				if (!checkIsExist)
 				{
 					resultStr = $"Add new {codeCPU} is SUCCESS";
 
-					db.DataCPUs.Add(new Data_CPU() { Model = model, ModelName = modelName, Cash = cash, Core = core, Frequency = frequency, Price = price, Socket = socket, TDP = TDP });
+					db.DataCPUs.Add(new Data_CPU() { Model = model, Name = name, Cash = cash, Core = core, Frequency = frequency, Price = price, Socket = socket, TDP = TDP });
 					db.SaveChanges();
 
 					return true;
@@ -149,7 +221,7 @@ namespace PConfigure.Model
 
 		public static bool DeleteValue(Data_CPU value, out string resultStr)
 		{
-			resultStr = $"This {value.ModelName} in {codeCPU} is not exists";
+			resultStr = $"This {value.Name} in {codeCPU} is not exists";
 
 			using (PConfigureContext db = new())
 			{
@@ -160,7 +232,7 @@ namespace PConfigure.Model
 					db.DataCPUs.Remove(value);
 					db.SaveChanges();
 
-					resultStr = $"This {value.ModelName} in {codeCPU} hase been delete";
+					resultStr = $"This {value.Name} in {codeCPU} hase been delete";
 					return true;
 				}
 			}
@@ -168,11 +240,11 @@ namespace PConfigure.Model
 			return false;
 		}
 
-		public static bool EditValue(out string resultStr, Data_CPU oldValue, string? model, string? modelName, string? socket, int frequency, int core, int cash, int TDP, double price)
+		public static bool EditValue(out string resultStr, Data_CPU oldValue, string? model, string? name, string? socket, double frequency, int core, int cash, int TDP, double price)
 		{
-			resultStr = $"This {oldValue.ModelName} in {codeCPU} is NOT exists";
+			resultStr = $"This {oldValue.Name} in {codeCPU} is NOT exists";
 
-			if (CheckIsNull(model, modelName, socket))
+			if (CheckIsNull(model, name, socket))
 			{
 				resultStr = $"Your data has a NULL values!";
 
@@ -185,13 +257,13 @@ namespace PConfigure.Model
 
 				if (value is not null)
 				{
-					resultStr = $"This {oldValue.ModelName} in {codeCPU} has been CHANGED!";
+					resultStr = $"This {oldValue.Name} in {codeCPU} has been CHANGED!";
 
 					value.TDP = TDP;
 					value.Price = price;
 					value.Frequency = frequency;
 					value.Model = model;
-					value.ModelName = modelName;
+					value.Name = name;
 					value.Cash = cash;
 					value.Core = core;
 
@@ -239,7 +311,7 @@ namespace PConfigure.Model
 				{
 					resultStr = $"Add new {codeGPU} is SUCCESS";
 
-					db.DataGPUs.Add(new Data_GPU() { Name = name, CapacityMemory = capacityMemory, Frequency = frequency, TDP = TDP, Price = price, TypeDDR = typeDDR, TypePower = typePower });
+					db.DataGPUs.Add(new Data_GPU() { Name = name, CapacityMemory = capacityMemory, Frequency = frequency, TDP = TDP, Price = price, TypeGDDR = typeDDR, TypePower = typePower });
 					db.SaveChanges();
 
 					return true;
@@ -271,7 +343,7 @@ namespace PConfigure.Model
 					value.Name = name;
 					value.Frequency = frequency;
 					value.CapacityMemory = capacityMemory;
-					value.TypeDDR = typeDDR;
+					value.TypeGDDR = typeDDR;
 					value.TypePower = typePower;
 					value.TDP = TDP;
 					value.Price = price;
@@ -527,7 +599,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeRAM = "RAM";
 
-		public static bool AddNewValue(out string resultStr, string? name, int frequency, int typeDDR, int capacityMemory, int TDP, double price)
+		public static bool AddNewValue(out string resultStr, string? name, int frequency, int typeDDR, int capacityMemory, double TDP, double price)
 		{
 			resultStr = $"Add new {codeRAM} is NOT success";
 
@@ -577,7 +649,7 @@ namespace PConfigure.Model
 			return false;
 		}
 
-		public static bool EditValue(out string resultStr, Data_RAM oldValue, string? name, int frequency, int typeDDR, int capacityMemory, int TDP, double price)
+		public static bool EditValue(out string resultStr, Data_RAM oldValue, string? name, int frequency, int typeDDR, int capacityMemory, double TDP, double price)
 		{
 			resultStr = $"This {oldValue.Name} in {codeRAM} is NOT exists";
 

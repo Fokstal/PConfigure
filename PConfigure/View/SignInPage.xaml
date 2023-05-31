@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <Page.DataContext>
-        <VM:SignInPageVM />
+        <VM:SignInVM />
     </Page.DataContext>
 
     <Page.Triggers>
@@ -139,7 +139,7 @@
                 Content="Sign in"
                 FontSize="10"
                 Foreground="GhostWhite"
-                Style="{Binding Source={StaticResource MainButtonStyle}}"/>
+                Style="{StaticResource MainButtonStyle}" />
 
         </StackPanel>
 

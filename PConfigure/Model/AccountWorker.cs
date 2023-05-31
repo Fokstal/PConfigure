@@ -1,16 +1,16 @@
 ﻿using PConfigure.Data;
+using PConfigure.Model.ModelData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace PConfigure.Model
 {
-	class AccountWorker
+    class AccountWorker
 	{
+		#region Add Function
 		private static bool CheckIsNull(params string?[] listArg)
 		{
 			foreach (var arg in listArg) if (arg is null) return true;
@@ -21,11 +21,13 @@ namespace PConfigure.Model
 		private static string Hash(string password)
 		{
 			byte[] data = Encoding.Default.GetBytes(password);
-			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] result = md5.ComputeHash(data);
+			SHA256 sha256 = new SHA256CryptoServiceProvider();
+			byte[] result = sha256.ComputeHash(data);
 			password = Convert.ToBase64String(result);
 			return password;
 		}
+
+		#endregion
 
 		#region Account
 

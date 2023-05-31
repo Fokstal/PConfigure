@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PConfigure.Model
+﻿namespace PConfigure.Model
 {
 	internal class Data_Memory
 	{

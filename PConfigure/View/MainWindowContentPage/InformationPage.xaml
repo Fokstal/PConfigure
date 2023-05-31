@@ -6,9 +6,7 @@
     xmlns:local="clr-namespace:PConfigure.View.MainWindowContentPage"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="InformationPage"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    Style="{Binding Source={StaticResource PageFromMainWindowStyle}}"
+    Style="{StaticResource PageFromMainWindowStyle}"
     mc:Ignorable="d">
 
     <Grid>
@@ -44,7 +42,7 @@
                 Height="100"
                 Margin="0,0,0,20"
                 VerticalAlignment="Bottom"
-                Source="/View/Logo_Bad.png" />
+                Source="/View/MainWindowContentPage/Logo_Bad.png" />
         </StackPanel>
 
     </Grid>

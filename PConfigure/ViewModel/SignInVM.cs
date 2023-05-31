@@ -2,11 +2,14 @@
 using System.Windows;
 using PConfigure.Model;
 using System.Windows.Controls;
+using PConfigure.Addition;
 
 namespace PConfigure.ViewModel
 {
-	class SignInPageVM
-    {
+    class SignInVM
+	{
+		#region SignIn VM
+
 		public static StartupWindowVM? currentStartupWindow;
 
 		public static string? Login { get; set; }
@@ -58,5 +61,7 @@ namespace PConfigure.ViewModel
 
 		public RelayCommand ChangeVisibilityPassCmd { get => _changeVisibilityPass; }
 		public RelayCommand SignInAccountCmd { get => signInAccount; }
+
+		#endregion
 	}
 }
