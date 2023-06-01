@@ -81,15 +81,7 @@
             Background="#202020"
             Style="{StaticResource MaterialDesignFilledTabControl}"
             TabStripPlacement="Left"
-            Visibility="Visible">
-
-            <TabItem Header="All item">
-
-                <ListView Foreground="GhostWhite" ItemsSource="{Binding ListItem}" />
-
-            </TabItem>
-
-        </TabControl>
+            Visibility="Visible" />
 
     </Grid>
 </Page>

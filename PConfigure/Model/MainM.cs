@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Data;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace PConfigure.Model
 {
@@ -81,7 +83,7 @@ namespace PConfigure.Model
 
 		public static void ExpandedBurgerMenu(object o)
 		{
-			MainWindow currentMainWindow = o as MainWindow ?? new MainWindow();
+			MainWindow currentMainWindow = o as MainWindow ?? new();
 
 			if (change)
 			{
@@ -92,19 +94,13 @@ namespace PConfigure.Model
 				HideBurgerMenu(currentMainWindow);
 			}
 		}
-		public static void HideBurgerMenu(object o)
+
+		public static void HideAfterLostFocusBurgerMenu(object o)
 		{
 			MainWindow currentMainWindow = o as MainWindow ?? new MainWindow();
 
 			HideBurgerMenu(currentMainWindow);
 		}
-
-		#endregion
-
-
-		#region
-
-		public static Basket? basket;
 
 		#endregion
 	}

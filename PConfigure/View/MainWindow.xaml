@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:VM="clr-namespace:PConfigure.ViewModel"
+    xmlns:add="clr-namespace:PConfigure.Addition"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:PConfigure.View"
@@ -16,13 +17,20 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <add:LeftMarginConverter x:Key="LMConverter" />
+    </Window.Resources>
+
     <Window.DataContext>
         <VM:MainVM />
     </Window.DataContext>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadConnectToDBCmd}" />
+            <i:InvokeCommandAction
+                x:Name="null"
+                Command="{Binding LoadConnectToDBCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -126,15 +134,15 @@
                 Height="30"
                 Margin="0,0,0,100"
                 VerticalAlignment="Bottom"
-                Command="{Binding OpenBasketCmd}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Command="{Binding OpenCartCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}"
                 Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}"
                 ToolTip="MaterialDesignFloatingActionSecondaryButton">
                 <materialDesign:PackIcon
                     Width="15"
                     Height="15"
                     Foreground="PapayaWhip"
-                    Kind="Basket" />
+                    Kind="Cart" />
             </Button>
 
             <Button
@@ -144,6 +152,15 @@
                 VerticalAlignment="Bottom" />
 
         </Grid>
+
+        <Frame
+            x:Name="CartFrame"
+            Width="0"
+            Height="300"
+            Margin="{Binding ElementName=BurgerMenu, Path=Width, Converter={StaticResource LMConverter}}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Source="MainWindowContentPage/CartPage.xaml" />
 
     </Grid>
 </Window>

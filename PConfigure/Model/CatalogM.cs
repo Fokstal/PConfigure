@@ -1,4 +1,5 @@
 ﻿using PConfigure.View.MainWindowContentPage;
+using PConfigure.ViewModel.MainWindowContentPageVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,6 @@ using System.Windows.Media;
 
 namespace PConfigure.Model
 {
-	class Basket
-	{
-		public Data_Blockpower? Blockpower { get; set; }
-		public Data_CPU? CPU { get; set; }
-		public Data_GPU? GPU { get; set; }
-		public Data_Memory? Memory { get; set; }
-		public Data_Motherboard? Motherboard { get; set; }
-		public Data_RAM? RAM { get; set; }
-
-		public bool CheckSocket()
-		{
-			return CPU?.Socket == Motherboard?.Socket;
-		}
-		public bool CheckTypeDDR()
-		{
-			return "DDR" + RAM?.TypeDDR == Motherboard?.TypeDDR; 
-		}
-		public bool CheckTypeGDDR()
-		{
-			return "GDDR" + GPU?.TypeGDDR == Motherboard?.TypeGDDR;
-		}
-		public bool CheckTypePower()
-		{
-			return GPU?.TypePower == Blockpower?.TypeGPUPower;
-		}
-		public bool CheckEqualTDP()
-		{
-			return CPU.TDP + GPU.TDP + RAM.TDP <= Blockpower.CapacityPower;
-		}
-	}
-
 	class CatalogM
 	{
 		#region ListView Worker
@@ -52,13 +22,15 @@ namespace PConfigure.Model
 			currentCatalogPage = o as CatalogPage ?? new();
 			TabControl tabControl = currentCatalogPage.CatalogTabControl;
 
+			tabControl.Items.Clear();
+			
+
 			List<IEnumerable<object>> items = DataWorker.GetAllItem(out List<Type> vl);
 
 			int count = 0;
 
 			foreach (var e in items)
 			{
-
 				TabItem tabItem = CatalogM.CreateListViewFromListObject(e, vl[count].Name.ToString());
 
 				tabControl.Items.Add(tabItem);
@@ -79,7 +51,7 @@ namespace PConfigure.Model
 
 			var listItem = item.ToList();
 
-			var type = listItem[0].GetType();
+			var type = listItem.Count > 0 ? listItem[0].GetType() : typeof(object);
 			var props = type.GetProperties();
 
 			foreach (var prop in props)
@@ -116,31 +88,41 @@ namespace PConfigure.Model
 
 		#endregion
 
-		#region BASKET Worker
+		#region Cart Worker
 
-		private static Basket _basket = new Basket();
-		private static List<string> texts = new List<string>() { "Add to basket" };
-		private static List<Action<object, EventArgs>> actions = new() { AddToBasket };
+		public static CartPage? CartPage;
 
-		private static void AddToBasket(object sender, EventArgs e)
+		private static readonly List<string> texts = new List<string>() { "Add to Cart" };
+		private static readonly List<Action<object, EventArgs>> actions = new() { AddToCart };
+
+		private static void AddToCart(object sender, EventArgs e)
 		{
 			var focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive)) as ListViewItem ?? new();
 			var focusedItem = focusedControl.Content;
 
-			foreach (var property in _basket.GetType().GetProperties().ToList())
+			foreach (var property in CartVM.CurrentCart.GetType().GetProperties().ToList())
 			{
 				if (focusedItem.GetType() == property.PropertyType)
 				{
 					var str = focusedItem.GetType().ToString().Replace("PConfigure.Model.Data_", "");
 
-					_basket.GetType().GetProperty(str).SetValue(_basket, focusedItem);
+					CartVM.CurrentCart.GetType().GetProperty(str)?.SetValue(CartVM.CurrentCart, focusedItem);
 
-					MainM.basket = _basket;
+					if (CartPage is not null)
+					{
+						CartPage.ListItem.ItemsSource = CartM.GetCartItem(CartVM.CurrentCart);
+					}
+
+					DataWorker.Cart = CartVM.CurrentCart;
+
+					CreateTabControlFromData(currentCatalogPage);
+
+					CartPage.PriceTextBlock.Text = CartVM.CurrentCart.GetPrices().ToString();
 				}
 			}
 		}
 
-		private static void RemoveFromBasket(object sender, EventArgs e)
+		private static void RemoveFromCart(object sender, EventArgs e)
 		{
 
 		}

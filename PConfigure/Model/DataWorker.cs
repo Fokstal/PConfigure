@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using PConfigure.Data;
+using PConfigure.Model.ModelData;
 
 namespace PConfigure.Model
 {
@@ -22,6 +23,8 @@ namespace PConfigure.Model
 
 
 		#region All item
+
+		public static Cart Cart = new();
 
 		public static List<string> GetNameAllItem()
 		{
@@ -60,23 +63,24 @@ namespace PConfigure.Model
 
 			return names;
 		}
+
 		public static List<IEnumerable<object>> GetAllItem(out List<Type> listNameTypeItem)
 		{
-			var listBlockpower = GetAllBlockpower();
-			var listCPU = GetAllCPU();
-			var listGPU = GetAllGPU();
+			var listBlockpower = GetAllBlockpower(Cart);
+			var listCPU = GetAllCPU(Cart);
+			var listGPU = GetAllGPU(Cart);
 			var listMemory = GetAllMemory();
-			var listMotherboard = GetAllMotherboard();
-			var listRAM = GetAllRAM();
+			var listMotherboard = GetAllMotherboard(Cart);
+			var listRAM = GetAllRAM(Cart);
 
 			listNameTypeItem = new List<Type>()
 			{
-				listBlockpower[0].GetType(),
-				listGPU[0].GetType(),
-				listCPU[0].GetType(),
-				listMemory[0].GetType(),
-				listMotherboard[0].GetType(),
-				listRAM[0].GetType()
+				typeof(Data_Blockpower),
+				typeof(Data_CPU),
+				typeof(Data_GPU),
+				typeof(Data_Memory),
+				typeof(Data_Motherboard),
+				typeof(Data_RAM)
 			};
 
 			return new List<IEnumerable<object>>() { listBlockpower, listCPU, listGPU, listMemory, listMotherboard, listRAM };
@@ -84,12 +88,13 @@ namespace PConfigure.Model
 
 		#endregion
 
-
+		// !PROBLEM -> Very more Query to DB
 
 		#region BlockPower
 
 		private static readonly string codeBlockpower = "BLOCKPOWER";
 
+		#region Worker
 		public static bool AddNewValue(out string resultStr, string? name, int capacityPower, double CUA, int typeGPUPower, double price)
 		{
 			resultStr = $"Add new {codeBlockpower} is NOT success";
@@ -174,11 +179,13 @@ namespace PConfigure.Model
 			}
 		}
 
-		public static List<Data_Blockpower> GetAllBlockpower()
+		#endregion
+
+		public static List<Data_Blockpower> GetAllBlockpower(Cart Cart)
 		{
 			using (PConfigureContext db = new())
 			{
-				return db.DataBlockpowers.ToList();
+				return db.DataBlockpowers.ToList().Where(o => Cart.CheckTypePower(o)).ToList();
 			}
 		}
 
@@ -190,6 +197,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeCPU = "CPU";
 
+		#region Worker
 		public static bool AddNewValue(out string resultStr, string? model, string? name, string? socket, double frequency, int core, int cash, int TDP, double price)
 		{
 			resultStr = $"Add new {codeCPU} is NOT success";
@@ -276,11 +284,13 @@ namespace PConfigure.Model
 			}
 		}
 
-		public static List<Data_CPU> GetAllCPU()
+		#endregion
+
+		public static List<Data_CPU> GetAllCPU(Cart Cart)
 		{
 			using (PConfigureContext db = new())
 			{
-				return db.DataCPUs.ToList();
+				return db.DataCPUs.ToList().Where(o => Cart.CheckSocket(o)).ToList();
 			}
 		}
 
@@ -291,6 +301,8 @@ namespace PConfigure.Model
 		//GPU
 
 		private static readonly string codeGPU = "GPU";
+
+		#region Worker
 
 		public static bool AddNewValue(out string resultStr, string? name, int frequency, int capacityMemory, int typeDDR, int typePower, int TDP, double price)
 		{
@@ -378,11 +390,13 @@ namespace PConfigure.Model
 			return false;
 		}
 
-		public static List<Data_GPU> GetAllGPU()
+		#endregion
+
+		public static List<Data_GPU> GetAllGPU(Cart Cart)
 		{
 			using (PConfigureContext db = new())
 			{
-				return db.DataGPUs.ToList();
+				return db.DataGPUs.ToList().Where(o => Cart.CheckTypePower(o) && Cart.CheckTypeGDDR(o)).ToList();
 			}
 		}
 
@@ -394,6 +408,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeMemory = "Memory";
 
+		#region
 		public static bool AddNewValue(out string resultStr, string? name, string? type, int capacityMemory, string? typeConnect, int speed, double price)
 		{
 			resultStr = $"Add new {codeMemory} is NOT success";
@@ -479,6 +494,8 @@ namespace PConfigure.Model
 			}
 		}
 
+		#endregion
+
 		public static List<Data_Memory> GetAllMemory()
 		{
 			using (PConfigureContext db = new())
@@ -495,6 +512,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeMotherboard = "MOTHERBOARD";
 
+		#region Worker
 		public static bool AddNewValue(out string resultStr, string? name, string? typeATX, string? socket, string? chipset, string? typeDDR, string? typeGDDR, int countSATA3, int countM2, double price)
 		{
 			resultStr = $"Add new {codeMotherboard} is NOT success";
@@ -583,11 +601,14 @@ namespace PConfigure.Model
 			}
 		}
 
-		public static List<Data_Motherboard> GetAllMotherboard()
+
+		#endregion
+
+		public static List<Data_Motherboard> GetAllMotherboard(Cart Cart)
 		{
 			using (PConfigureContext db = new())
 			{
-				return db.DataMotherboards.ToList();
+				return db.DataMotherboards.ToList().Where(o => Cart.CheckSocket(o) && Cart.CheckTypeGDDR(o) && Cart.CheckTypeDDR(o)).ToList();
 			}
 		}
 
@@ -599,6 +620,7 @@ namespace PConfigure.Model
 
 		private static readonly string codeRAM = "RAM";
 
+		#region
 		public static bool AddNewValue(out string resultStr, string? name, int frequency, int typeDDR, int capacityMemory, double TDP, double price)
 		{
 			resultStr = $"Add new {codeRAM} is NOT success";
@@ -684,11 +706,13 @@ namespace PConfigure.Model
 			}
 		}
 
-		public static List<Data_RAM> GetAllRAM()
+		#endregion
+
+		public static List<Data_RAM> GetAllRAM(Cart Cart)
 		{
 			using (PConfigureContext db = new())
 			{
-				return db.DataRAMs.ToList();
+				return db.DataRAMs.ToList().Where(o => Cart.CheckTypeDDR(o)).ToList();
 			}
 		}
 

@@ -1,0 +1,108 @@
+﻿<Page
+    x:Class="PConfigure.View.MainWindowContentPage.CartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VM="clr-namespace:PConfigure.ViewModel.MainWindowContentPageVM"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:PConfigure.View.MainWindowContentPage"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="CartPg"
+    Title="CartPage"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    Background="GhostWhite"
+    Opacity="0.8"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <VM:CartVM />
+    </Page.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                x:Name="Empty"
+                Command="{Binding Command}"
+                CommandParameter="{Binding ElementName=CartPg}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+
+            <ListView
+                x:Name="ListItem"
+                Grid.Row="0"
+                ItemsSource="{Binding ListCartItem}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=NameField}" />
+                            <TextBlock Text="{Binding Path=NameItem}" />
+                            <Button
+                                Background="{x:Null}"
+                                Command="{Binding DataContext.DeleteItemFromCart, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                CommandParameter="{Binding Path=NameItem}"
+                                Content="x"
+                                FontSize="16"
+                                Foreground="DarkRed" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <!--<ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=NameField}" Header="Name" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=NameItem}" Header="Item" />
+                    </GridView>
+                </ListView.View>-->
+
+
+
+            </ListView>
+
+            <Grid Grid.Row="1">
+
+                <TreeView>
+                    <TreeViewItem
+                        HorizontalAlignment="Left"
+                        FontSize="16"
+                        Header="Total" />
+                </TreeView>
+
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <TextBlock
+                        x:Name="PriceTextBlock"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                        Text="{Binding Pricevalue}">
+                        <Hyperlink />
+                    </TextBlock>
+
+                    <Button
+                        Width="20"
+                        Height="20"
+                        Margin="10,0"
+                        Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
+                        ToolTip="MaterialDesignFloatingActionSecondaryLightButton">
+                        <materialDesign:PackIcon
+                            Width="10"
+                            Height="10"
+                            Kind="Dollar" />
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Page>

@@ -10,18 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PConfigure.View.MainWindowContentPage
 {
-	/// <summary>
-	/// Interaction logic for Window1.xaml
-	/// </summary>
-	public partial class CartWindow : Window
-	{
-		public CartWindow()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for CartPage.xaml
+    /// </summary>
+    public partial class CartPage : Page
+    {
+        public CartPage()
+        {
+            InitializeComponent();
+        }
+    }
 }
