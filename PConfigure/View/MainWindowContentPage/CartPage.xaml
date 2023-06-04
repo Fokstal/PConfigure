@@ -45,15 +45,30 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=NameField}" />
-                            <TextBlock Text="{Binding Path=NameItem}" />
+                            <TextBlock
+                                Width="100"
+                                Padding="0,5"
+                                Text="{Binding Path=NameField}" />
+                            <TextBlock
+                                Width="165"
+                                Padding="0,5"
+                                Text="{Binding Path=NameItem}" />
                             <Button
+                                Height="15"
+                                Padding="0"
                                 Background="{x:Null}"
+                                BorderBrush="{x:Null}"
                                 Command="{Binding DataContext.DeleteItemFromCart, RelativeSource={RelativeSource AncestorType=ListView}}"
                                 CommandParameter="{Binding Path=NameItem}"
-                                Content="x"
                                 FontSize="16"
-                                Foreground="DarkRed" />
+                                Foreground="DarkRed">
+
+                                <materialDesign:PackIcon Kind="CloseCircleOutline" />
+
+                            </Button>
+
+
+
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

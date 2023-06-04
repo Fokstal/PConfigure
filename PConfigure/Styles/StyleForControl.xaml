@@ -210,4 +210,29 @@
 
     </Style>
 
+    <Style x:Key="RoundedPageStyle" TargetType="{x:Type Page}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Page}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedWindowStyle" TargetType="{x:Type Window}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 </ResourceDictionary>

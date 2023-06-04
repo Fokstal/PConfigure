@@ -56,7 +56,7 @@ namespace PConfigure.ViewModel
 
 			string currentPassword = passwordFromPasswordBox.Length > paasswordFromPasswordTextBox.Length ? passwordFromPasswordBox : paasswordFromPasswordTextBox;
 
-			AccountWorker.SignInAccout(out resultStr, Login, currentPassword);
+			AccountWorker.SignInAccout(out resultStr, "MC", currentPassword);
 		});
 
 		public RelayCommand ChangeVisibilityPassCmd { get => _changeVisibilityPass; }

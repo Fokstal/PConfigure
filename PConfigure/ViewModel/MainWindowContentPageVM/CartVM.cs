@@ -1,6 +1,7 @@
 ﻿using PConfigure.Addition;
 using PConfigure.Model;
 using PConfigure.Model.ModelData;
+using PConfigure.View;
 using PConfigure.View.MainWindowContentPage;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,20 +19,27 @@ using System.Windows.Input;
 
 namespace PConfigure.ViewModel.MainWindowContentPageVM
 {
-	class CartVM
+	class CartVM : INotifyPropertyChanged
 	{
 		private static Cart currentCart = new();
 
 		private List<CartItem> _listCartItem = CartM.GetCartItem(currentCart);
 
-		private RelayCommand _command = new(o => { CatalogM.CartPage = o as CartPage ?? new(); });
+		private RelayCommand _command = new(o => { Cart.currentCartPage = o as CartPage ?? new(); });
 
 		private double _priceValue = currentCart.GetPrices();
 
-		private RelayCommand _deleteItemFromCartCmd = new(o =>
+		private readonly RelayCommand _deleteItemFromCartCmd = new(o =>
 		{
-			MessageBox.Show(o + "");
+			CartM.DeleteItemFromCart(currentCart, o.ToString());
 
+			Cart.currentCartPage.ListItem.ItemsSource = CartM.GetCartItem(currentCart);
+
+			CatalogVM._selectItemCmd.Execute(CatalogVM.currentCatalogPage);
+
+			Cart.currentCartPage.PriceTextBlock.Text = CartVM.CurrentCart.GetPrices().ToString();
+
+			new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive));
 		});
 
 
@@ -43,5 +52,20 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 		public double Pricevalue { get => _priceValue; }
 
 		public RelayCommand DeleteItemFromCart { get => _deleteItemFromCartCmd; }
+
+		#region
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public void OnPropertyChanged([CallerMemberName] string prop = "")
+		{
+			if (PropertyChanged is not null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(prop));
+			}
+
+		}
+
+		#endregion
 	}
 }

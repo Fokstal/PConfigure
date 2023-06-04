@@ -7,6 +7,9 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System;
+using System.Threading;
+using PConfigure.ViewModel.MainWindowContentPageVM;
+using System.Threading.Tasks;
 
 namespace PConfigure.ViewModel
 {
@@ -81,6 +84,7 @@ namespace PConfigure.ViewModel
 			MainWindow currentMainWindow = o as MainWindow ?? new MainWindow();
 
 			currentMainWindow.ContentFrame.Content = new InformationPage();
+
 		});
 		private readonly RelayCommand _showCatalogPageCmd = new(o =>
 		{
@@ -89,8 +93,16 @@ namespace PConfigure.ViewModel
 			currentMainWindow.ContentFrame.Content = new CatalogPage();
 		});
 
+		private readonly RelayCommand _showAdminPanelPageCmd = new(o =>
+		{
+			MainWindow currentMainWindow = o as MainWindow ?? new MainWindow();
+
+			currentMainWindow.ContentFrame.Content = new AdminPanelPage();
+		});
+
 		public RelayCommand ShowInformationPageCmd { get => _showInformationPageCmd; }
 		public RelayCommand ShowCatalogPageCmd { get => _showCatalogPageCmd; }
+		public RelayCommand ShowAdminPanelPageCmd { get => _showAdminPanelPageCmd; }
 
 		#endregion
 	}

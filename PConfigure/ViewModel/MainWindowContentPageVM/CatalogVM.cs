@@ -17,17 +17,20 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 {
 	class CatalogVM
 	{
-		#region BindingData for ListView
-
-		private List<string> _listItem = DataWorker.GetNameAllItem();
-
-		public List<string> ListItem { get => _listItem; set => _listItem = value; }
-
-		#endregion
+		public static CatalogPage? currentCatalogPage;
 
 		#region Item
 
-		private RelayCommand _selectItemCmd = new(o => CatalogM.CreateTabControlFromData(o));
+		public static RelayCommand _selectItemCmd = new(o =>
+		{
+			CatalogPage catalogPage = o as CatalogPage ?? new();
+
+			currentCatalogPage = catalogPage;
+
+			List<IEnumerable<object>> items = DataWorker.GetAllItem(out List<Type> typesItem);
+
+			ControlFromData.AddDataInTabControl(catalogPage.CatalogTabControl, items, typesItem, ReadyControls.ContextMenuInCatalog);
+		});
 
 		public RelayCommand SelectItemCmd { get => _selectItemCmd; set => _selectItemCmd = value; }
 

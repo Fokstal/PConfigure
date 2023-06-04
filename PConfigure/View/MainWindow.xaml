@@ -127,6 +127,14 @@
                     Content="Catalog"
                     Style="{StaticResource BurgerMenuBtnStyle}" />
 
+                <Button
+                    x:Name="AdminPanelTextBlock"
+                    BorderBrush="LightCoral"
+                    Command="{Binding ShowAdminPanelPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Admin panel"
+                    Style="{StaticResource BurgerMenuBtnStyle}" />
+
             </StackPanel>
 
             <Button

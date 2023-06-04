@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PConfigure.View.MainWindowContentPage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,12 @@ namespace PConfigure.Model.ModelData
 		public Data_Memory? Memory { get; set; }
 		public Data_Motherboard? Motherboard { get; set; }
 		public Data_RAM? RAM { get; set; }
+
+		#region Current CartPage
+
+		public static CartPage? currentCartPage;
+
+		#endregion
 
 		#region Validation of DEPEND
 
@@ -68,11 +75,11 @@ namespace PConfigure.Model.ModelData
 		}
 
 		#endregion
+
 		public bool CheckEqualTDP()
 		{
 			return CPU?.TDP + GPU?.TDP + RAM?.TDP <= Blockpower?.CapacityPower;
 		}
-
 		public double GetPrices()
 		{
 			double prices = 0;

@@ -46,32 +46,29 @@
                 Select account
             </TextBlock>
 
+            <Button
+                x:Name="SelectUserAccBtn"
+                Width="70"
+                Height="35"
+                Background="DarkSeaGreen"
+                Command="{Binding SelectUserAccCmd}"
+                CommandParameter="{Binding ElementName=StartupPg}"
+                Content="User"
+                FontSize="16"
+                FontWeight="Bold" />
 
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-
-                <Button
-                    x:Name="SelectUserAccBtn"
-                    Width="70"
-                    Height="35"
-                    Command="{Binding SelectUserAccCmd}"
-                    CommandParameter="{Binding ElementName=StartupPg}"
-                    Content="User"
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Style="{StaticResource StartupPageRigthButtonStyle}" />
-
-                <Button
-                    x:Name="SelectCreatorAccBtn"
-                    Width="70"
-                    Height="35"
-                    Command="{Binding SelectCreatorAccCmd}"
-                    CommandParameter="{Binding ElementName=StartupPg}"
-                    Content="Creator"
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Style="{StaticResource StartupPageLeftButtonStyle}" />
-
-            </StackPanel>
+            <Button
+                x:Name="SelectCreatorAccBtn"
+                Width="70"
+                Height="15"
+                Margin="0,10,0,0"
+                Padding="0"
+                Background="LightYellow"
+                Command="{Binding SelectCreatorAccCmd}"
+                CommandParameter="{Binding ElementName=StartupPg}"
+                Content="Creator"
+                FontSize="10"
+                FontWeight="Bold" />
 
             <CheckBox
                 Margin="0,10,0,0"

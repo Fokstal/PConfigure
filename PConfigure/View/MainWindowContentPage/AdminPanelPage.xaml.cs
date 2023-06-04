@@ -9,25 +9,20 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PConfigure.Addition;
-using PConfigure.Model;
-using PConfigure.ViewModel.MainWindowContentPageVM;
 
-namespace PConfigure.View
+namespace PConfigure.View.MainWindowContentPage
 {
 	/// <summary>
-	/// Логика взаимодействия для MainWindow.xaml
+	/// Interaction logic for AdminPanelPage.xaml
 	/// </summary>
-	/// 
-	public partial class MainWindow : Window
+	public partial class AdminPanelPage : Page
 	{
-		public MainWindow()
+		public AdminPanelPage()
 		{
 			InitializeComponent();
 		}
-    }
+	}
 }

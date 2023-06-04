@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="PConfigure.View.MainWindowContentPage.AdminPanelPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:PConfigure.View.MainWindowContentPage"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:PConfigure.ViewModel.MainWindowContentPageVM"
+    x:Name="AdmPanelPg"
+    Title="AdminPanelPage"
+    d:DesignHeight="700"
+    d:DesignWidth="1000"
+    Style="{StaticResource PageFromMainWindowStyle}"
+    mc:Ignorable="d">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                x:Name="Empty"
+                Command="{Binding CreateContentOnTabControl}"
+                CommandParameter="{Binding ElementName=AdmPanelPg}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
+    <Page.DataContext>
+        <vm:AdminPanelVM />
+    </Page.DataContext>
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+
+            <Button
+                x:Name="TitleButton"
+                HorizontalAlignment="Center"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                Content="Admin panel"
+                FontSize="30"
+                Foreground="GhostWhite"
+                Style="{StaticResource TitleTextBlockStyle}" />
+
+        </StackPanel>
+
+        <Grid Margin="0,50">
+
+            <TabControl x:Name="ContentTabControl" />
+
+        </Grid>
+
+    </Grid>
+</Page>

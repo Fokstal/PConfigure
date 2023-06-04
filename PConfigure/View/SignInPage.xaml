@@ -68,8 +68,10 @@
                     Width="140"
                     Margin="80,0,60,0"
                     HorizontalAlignment="Center"
+                    FontWeight="Black"
                     MaxLength="15"
-                    Text="{Binding Login}" />
+                    Text="MC"
+                    TextAlignment="Center" />
 
                 <TextBlock
                     Width="20"

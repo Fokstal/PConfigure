@@ -14,7 +14,7 @@ namespace PConfigure.Addition
 		{
 			if (value is double width)
 			{
-				return width - 40;
+				return width + 50;
 			}
 
 			return value;

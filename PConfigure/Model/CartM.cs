@@ -22,15 +22,15 @@ namespace PConfigure.Model
 			{ "RAM", "💡" }
 		};
 
-		public static List<CartItem> GetCartItem(Cart Cart)
+		public static List<CartItem> GetCartItem(Cart cart)
 		{
 			List<CartItem> CartItems = new();
 
-			foreach (var e in Cart.GetType().GetProperties())
+			foreach (var e in cart.GetType().GetProperties())
 			{
-				if (e.GetValue(Cart) is not null)
+				if (e.GetValue(cart) is not null)
 				{
-					var item = Cart.GetType().GetProperty(e.Name)?.GetValue(Cart);
+					var item = cart.GetType().GetProperty(e.Name)?.GetValue(cart);
 
 					string nameField = item?.ToString().Replace("PConfigure.Model.Data_", "") ?? "";
 
@@ -51,6 +51,24 @@ namespace PConfigure.Model
 			}
 
 			return CartItems;
+		}
+
+		public static Cart DeleteItemFromCart(Cart cart, string nameItem)
+		{
+			foreach (var e in cart.GetType().GetProperties())
+			{
+				if (e.GetValue(cart) is not null)
+				{
+					var item = cart.GetType().GetProperty(e.Name)?.GetValue(cart);
+
+					if (nameItem == item.GetType().GetProperty("Name")?.GetValue(item)?.ToString())
+					{
+						cart.GetType().GetProperty(e.Name).SetValue(cart, null);
+					}
+				}
+			}
+
+			return cart;
 		}
 	}
 }

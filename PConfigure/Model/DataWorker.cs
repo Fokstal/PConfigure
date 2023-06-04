@@ -86,6 +86,28 @@ namespace PConfigure.Model
 			return new List<IEnumerable<object>>() { listBlockpower, listCPU, listGPU, listMemory, listMotherboard, listRAM };
 		}
 
+		public static List<IEnumerable<object>> GetAllItemWithoutCart(out List<Type> listNameTypeItem)
+		{
+			var listBlockpower = GetAllBlockpower();
+			var listCPU = GetAllCPU();
+			var listGPU = GetAllGPU();
+			var listMemory = GetAllMemory();
+			var listMotherboard = GetAllMotherboard();
+			var listRAM = GetAllRAM();
+
+			listNameTypeItem = new List<Type>()
+			{
+				typeof(Data_Blockpower),
+				typeof(Data_CPU),
+				typeof(Data_GPU),
+				typeof(Data_Memory),
+				typeof(Data_Motherboard),
+				typeof(Data_RAM)
+			};
+
+			return new List<IEnumerable<object>>() { listBlockpower, listCPU, listGPU, listMemory, listMotherboard, listRAM };
+		}
+
 		#endregion
 
 		// !PROBLEM -> Very more Query to DB
@@ -93,6 +115,42 @@ namespace PConfigure.Model
 		#region BlockPower
 
 		private static readonly string codeBlockpower = "BLOCKPOWER";
+
+		public static bool AddNewValue_Blockpower(out string resultStr, List<object> listParam)
+		{
+			resultStr = $"Add new {codeBlockpower} is NOT success";
+
+			if (listParam.Count == 5)
+			{
+				string? name = listParam[0] as String;
+				int capacityPower = Convert.ToInt32(listParam[1]);
+				double CUA = Convert.ToDouble(listParam[2]);
+				int typeGPUPower = Convert.ToInt32(listParam[3]);
+				double price = Convert.ToDouble(listParam[4]);
+
+				if (CheckIsNull(name))
+				{
+					resultStr = $"Your data has a NULL values!";
+
+					return false;
+				}
+
+				using (PConfigureContext db = new())
+				{
+					bool checkIsExist = db.DataBlockpowers.Any(o => o.Name == name);
+
+					if (!checkIsExist)
+					{
+						resultStr = $"Add new {codeBlockpower} is SUCCESS";
+
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
 
 		#region Worker
 		public static bool AddNewValue(out string resultStr, string? name, int capacityPower, double CUA, int typeGPUPower, double price)
@@ -186,6 +244,14 @@ namespace PConfigure.Model
 			using (PConfigureContext db = new())
 			{
 				return db.DataBlockpowers.ToList().Where(o => Cart.CheckTypePower(o)).ToList();
+			}
+		}
+
+		public static List<Data_Blockpower> GetAllBlockpower()
+		{
+			using (PConfigureContext db = new())
+			{
+				return db.DataBlockpowers.ToList();
 			}
 		}
 
@@ -294,6 +360,14 @@ namespace PConfigure.Model
 			}
 		}
 
+		public static List<Data_CPU> GetAllCPU()
+		{
+			using (PConfigureContext db = new())
+			{
+				return db.DataCPUs.ToList();
+			}
+		}
+
 		#endregion
 
 
@@ -397,6 +471,14 @@ namespace PConfigure.Model
 			using (PConfigureContext db = new())
 			{
 				return db.DataGPUs.ToList().Where(o => Cart.CheckTypePower(o) && Cart.CheckTypeGDDR(o)).ToList();
+			}
+		}
+
+		public static List<Data_GPU> GetAllGPU()
+		{
+			using (PConfigureContext db = new())
+			{
+				return db.DataGPUs.ToList();
 			}
 		}
 
@@ -611,6 +693,13 @@ namespace PConfigure.Model
 				return db.DataMotherboards.ToList().Where(o => Cart.CheckSocket(o) && Cart.CheckTypeGDDR(o) && Cart.CheckTypeDDR(o)).ToList();
 			}
 		}
+		public static List<Data_Motherboard> GetAllMotherboard()
+		{
+			using (PConfigureContext db = new())
+			{
+				return db.DataMotherboards.ToList();
+			}
+		}
 
 		#endregion
 
@@ -715,6 +804,15 @@ namespace PConfigure.Model
 				return db.DataRAMs.ToList().Where(o => Cart.CheckTypeDDR(o)).ToList();
 			}
 		}
+
+		public static List<Data_RAM> GetAllRAM()
+		{
+			using (PConfigureContext db = new())
+			{
+				return db.DataRAMs.ToList();
+			}
+		}
+
 
 		#endregion
 	}

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace PConfigure.View.MainWindowContentPage
 {
 	/// <summary>
-	/// Interaction logic for Window1.xaml
+	/// Interaction logic for AddNewValueWindow.xaml
 	/// </summary>
-	public partial class CartWindow : Window
+	public partial class AddNewValueWindow : Window
 	{
-		public CartWindow()
+		public AddNewValueWindow()
 		{
 			InitializeComponent();
 		}
