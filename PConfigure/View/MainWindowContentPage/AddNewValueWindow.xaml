@@ -9,4 +9,5 @@
     Width="Auto"
     Height="Auto"
     WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
     mc:Ignorable="d" />

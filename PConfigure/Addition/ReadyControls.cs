@@ -57,8 +57,8 @@ namespace PConfigure.Addition
 
 		private static MenuItem AddItemToCart { get => ControlFromData.CreateMenuItem("Add to CART", _actionsContextMenu["Add to CART"]); }
 		private static MenuItem DeleteItemFromList { get => ControlFromData.CreateMenuItem("Delete ITEM", _actionsContextMenu["Delete ITEM"]); }
-		private static MenuItem AddItemToList {	get => ControlFromData.CreateMenuItem("Add ITEM", _actionsContextMenu["Add ITEM"]);	}
-		private static MenuItem EditItemInList { get => ControlFromData.CreateMenuItem("Edit ITEM", _actionsContextMenu["Edit ITEM"]); }
+		private static MenuItem AddItemToList {	get => ControlFromData.CreateMenuItemWithoutNofity("Add ITEM", _actionsContextMenu["Add ITEM"]);	}
+		private static MenuItem EditItemInList { get => ControlFromData.CreateMenuItemWithoutNofity("Edit ITEM", _actionsContextMenu["Edit ITEM"]); }
 
 
 		#region Action
@@ -95,7 +95,9 @@ namespace PConfigure.Addition
 			var focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive)) as ListViewItem ?? new();
 			var focusedItem = focusedControl.Content;
 
-			MessageBox.Show((focusedItem) + "");
+			DataWorker.DeleteValue(focusedItem, out string resultStr);
+
+			AdminPanelVM._createContentOnTabControl.Execute(AdminPanelVM._instancePage);
 		}
 
 		private static void AddItem(object sender, EventArgs e)
@@ -104,6 +106,9 @@ namespace PConfigure.Addition
 			var focusedItem = focusedControl.Content;
 
 			WindowFromData.OpenAddNewValue(focusedItem);
+
+			AdminPanelVM._createContentOnTabControl.Execute(AdminPanelVM._instancePage);
+
 		}
 
 		private static void EditItem(object sender, EventArgs e)
@@ -112,6 +117,8 @@ namespace PConfigure.Addition
 			var focusedItem = focusedControl.Content;
 
 			WindowFromData.OpenEditValue(focusedItem);
+
+			AdminPanelVM._createContentOnTabControl.Execute(AdminPanelVM._instancePage);
 		}
 
 

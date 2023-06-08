@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Windows.Data;
 using System.Windows.Controls.Primitives;
 using PConfigure.Addition;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace PConfigure.ViewModel.MainWindowContentPageVM
 {
@@ -33,6 +34,29 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 		});
 
 		public RelayCommand SelectItemCmd { get => _selectItemCmd; set => _selectItemCmd = value; }
+
+		#endregion
+
+
+		#region Search Panel
+
+
+		private static string searchBoxValue = "";
+		private readonly RelayCommand _searchingCmd = new(o =>
+		{
+			CatalogPage catalogPage = o as CatalogPage ?? new();
+
+			currentCatalogPage = catalogPage;
+
+			List<IEnumerable<object>> items = DataWorker.GetAllItemByName(searchBoxValue, out List<Type> typesItem);
+
+			ControlFromData.AddDataInTabControl(catalogPage.CatalogTabControl, items, typesItem, ReadyControls.ContextMenuInCatalog);
+		});
+
+
+		public string SearchBoxValue { get => searchBoxValue; set => searchBoxValue = value; }
+
+		public RelayCommand SearchingCmd { get => _searchingCmd; }
 
 		#endregion
 	}

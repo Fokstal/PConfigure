@@ -29,5 +29,14 @@ namespace PConfigure.View
 		{
 			InitializeComponent();
 		}
-    }
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			string resultStr = "";
+
+			DataWorker.AddNewValue(new Data_Blockpower() { Name = "NEWW", }, out resultStr);
+
+			MessageBox.Show(resultStr);
+		}
+	}
 }

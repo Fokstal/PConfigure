@@ -2,6 +2,7 @@
 using PConfigure.View.MainWindowContentPage;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,9 +15,13 @@ namespace PConfigure.Addition
 		private static List<Type> TypesProp { get; set; } = new();
 		private static List<string> NamesProp { get; set; } = new();
 		private static List<string> ValuesProp { get; set; } = new();
+		private static object InstanceItem { get; set; } = new object();
+
+		private static Window? InstanceWindow { get; set; }
 
 		public static void OpenAddNewValue(object item)
 		{
+			InstanceItem = item;
 
 			Type type = SetTypesAndNamesPropFromItem(item);
 
@@ -28,6 +33,7 @@ namespace PConfigure.Addition
 		}
 		public static void OpenEditValue(object item)
 		{
+			InstanceItem = item;
 
 			Type type = SetTypesAndNamesPropFromItem(item);
 
@@ -83,7 +89,7 @@ namespace PConfigure.Addition
 
 				try
 				{
-					listParam.Add(Convert.ChangeType(textBox.Text, TypesProp[l]));
+					listParam.Add(Convert.ChangeType(textBox.Text.Replace('.', ','), TypesProp[l]));
 				}
 				catch
 				{
@@ -100,114 +106,55 @@ namespace PConfigure.Addition
 			{
 				if (textBlock.Text.Contains("Add"))
 				{
-					string nameMethod = "AddNewValue_" + textBlock.Text.Replace("Add ", "");
+					string nameType = "AddNewValue_" + textBlock.Text.Replace("Add ", "");
 
-					InvokeAddMethodByName(nameMethod, out string resultStr, listParam);
-
-					//MessageBox.Show(resultStr);
+					DataWorker.AddNewValue(SetPropsByType(listParam, nameType), out string resultStr);
 				}
 
 				if (textBlock.Text.Contains("Edit"))
 				{
-					string nameMethod = "EditValue_" + textBlock.Text.Replace("Edit ", "");
+					string nameType = "AddNewValue_" + textBlock.Text.Replace("Edit ", "");
 
-					InvokeEditMethodByName(nameMethod, out string resultStr, listParam);
-
-					//MessageBox.Show(resultStr);
+					DataWorker.EditValue(InstanceItem, SetPropsByType(listParam, nameType), out string resultStr);
 				}
 			}
 
+			InstanceWindow.Close();
+
 		}
+		private static void CurrentWindowButton_ClickClose(object sender, RoutedEventArgs e) => InstanceWindow.Close();
 
-		private static void InvokeAddMethodByName(string nameMethod, out string resultStr, List<object> parameters)
+		private static object SetPropsByType(List<object> parameters, string nameType)
 		{
-			resultStr = "";
+			if (nameType == "AddNewValue_Blockpower") return new Data_Blockpower()
+				{
+					Name = parameters[0].ToString(),
+					CapacityPower = Convert.ToInt32(parameters[1]),
+					CUA = Convert.ToInt32(parameters[2]),
+					TypeGPUPower = Convert.ToInt32(parameters[3]),
+					Price = Convert.ToDouble(parameters[4]),
+				};
+			if (nameType == "AddNewValue_CPU") return new Data_CPU() 
+			{ 
+				Model = parameters[0].ToString(), 
+				Name = parameters[1].ToString(), 
+				Socket = parameters[2].ToString(), 
+				Frequency = Convert.ToDouble(parameters[3]), 
+				Core = Convert.ToInt32(parameters[4]),
+				Cash = Convert.ToInt32(parameters[5]), 
+				TDP = Convert.ToInt32(parameters[6]), 
+				Price = Convert.ToDouble(parameters[7]) };
+			if (nameType == "AddNewValue_GPU") return new Data_GPU() 
+			{ Name = parameters[0].ToString(), Frequency = Convert.ToInt32(parameters[1]), CapacityMemory = Convert.ToInt32(parameters[2]), TypeGDDR = Convert.ToInt32(parameters[3]), TypePower = Convert.ToInt32(parameters[4]), TDP = Convert.ToInt32(parameters[5]), Price = Convert.ToDouble(parameters[6]) };
+			if (nameType == "AddNewValue_Memory") return new Data_Memory() 
+			{ Name = parameters[0].ToString(), Type = parameters[1].ToString(), CapacityMemory = Convert.ToInt32(parameters[2]), TypeConnect = parameters[3].ToString(), Speed = Convert.ToInt32(parameters[4]), Price = Convert.ToDouble(parameters[5]) };
+			if (nameType == "AddNewValue_Motherboard") return new Data_Motherboard() 
+			{ Name = parameters[0].ToString(), TypeATX = parameters[1].ToString(), Socket = parameters[2].ToString(), Chipset = parameters[3].ToString(), TypeDDR = parameters[4].ToString(), TypeGDDR = parameters[5].ToString(), CountSATA3 = Convert.ToInt32(parameters[6]), CountM2 = Convert.ToInt32(parameters[7]), Price = Convert.ToDouble(parameters[8]) };
+			if (nameType == "AddNewValue_RAM") return new Data_RAM() 
+			{ Name = parameters[0].ToString(), Frequency = Convert.ToInt32(parameters[1]), TypeDDR = Convert.ToInt32(parameters[2]), CapacityMemory = Convert.ToInt32(parameters[3]), TDP = Convert.ToDouble(parameters[4]), Price = Convert.ToDouble(parameters[5]) };
 
-			switch (nameMethod)
-			{
-				case "AddNewValue_Blockpower":
-					{
-						//DataWorker.AddNewValue_Blockpower(out resultStr, parameters);
-						MessageBox.Show("Add BLOCKPOWER");
-						break;
-					}
+			return new object();
 
-				case "AddNewValue_CPU":
-					{
-						MessageBox.Show("Add CPU");
-						break;
-					}
-
-				case "AddNewValue_GPU":
-					{
-						MessageBox.Show("Add GPU");
-						break;
-					}
-
-				case "AddNewValue_Memory":
-					{
-						MessageBox.Show("Add MEMORY");
-						break;
-					}
-
-				case "AddNewValue_Motherboard":
-					{
-						MessageBox.Show("Add MOTHERBOARD");
-						break;
-					}
-
-				case "AddNewValue_RAM":
-					{
-						MessageBox.Show("Add RAM");
-						break;
-					}
-
-			}
-		}
-
-		private static void InvokeEditMethodByName(string nameMethod, out string resultStr, List<object> parameters)
-		{
-			resultStr = "";
-
-			switch (nameMethod)
-			{
-				case "EditValue_Blockpower":
-					{
-						MessageBox.Show("Edit BLOCKPOWER"); 
-						break;
-					}
-
-				case "EditValue_CPU":
-					{
-						MessageBox.Show("Edit CPU"); 
-						break;
-					}
-
-				case "EditValue_GPU":
-					{
-						MessageBox.Show("Edit GPU"); 
-						break;
-					}
-
-				case "EditValue_Memory":
-					{
-						MessageBox.Show("Edit MEMORY"); 
-						break;
-					}
-
-				case "EditValue_Motherboard":
-					{
-						MessageBox.Show("Edit MOTHERBOARD"); 
-						break;
-					}
-
-				case "EditValue_RAM":
-					{
-						MessageBox.Show("Edit RAM"); 
-						break;
-					}
-
-			}
 		}
 
 
@@ -245,7 +192,8 @@ namespace PConfigure.Addition
 		private static void SetControlAddNewValueToWindow(Type type, AddNewValueWindow window)
 		{
 			Grid grid = new();
-			grid.Background = Brushes.LightCyan;
+			grid.Background = Brushes.DimGray;
+			grid.Opacity = 0.9;
 
 			StackPanel stackPanel = new();
 
@@ -253,6 +201,7 @@ namespace PConfigure.Addition
 			titleTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
 			titleTextBlock.Margin = new(0, 0, 0, 5);
 			titleTextBlock.FontSize = 26;
+			titleTextBlock.Foreground = Brushes.GhostWhite;
 			titleTextBlock.Text = "Add " + type.Name.Replace("Data_", "");
 
 			stackPanel.Children.Add(titleTextBlock);
@@ -266,12 +215,25 @@ namespace PConfigure.Addition
 			}
 
 			// Create Button and his ACTION
-			Button btn = new();
+			Button btnAdd = new();
 
-			btn.Width = 150;
-			btn.Content = "Add VALUE";
-			btn.Click += CurrentWindowButton_Click;
-			stackPanel.Children.Add(btn);
+			btnAdd.Width = 150;
+			btnAdd.Margin = new(0, 30, 0, 0);
+			btnAdd.FontWeight = FontWeights.Bold;
+			btnAdd.Content = "Add VALUE";
+			btnAdd.Click += CurrentWindowButton_Click;
+			stackPanel.Children.Add(btnAdd);
+
+			Button btnClose = new();
+
+			btnClose.Width = 150;
+			btnClose.Margin = new(0, 30, 0, 0);
+			btnClose.Background = Brushes.LightCoral;
+			btnClose.BorderBrush = Brushes.LightCoral;
+			btnClose.FontWeight = FontWeights.Bold;
+			btnClose.Content = "Close";
+			btnClose.Click += CurrentWindowButton_ClickClose;
+			stackPanel.Children.Add(btnClose);
 
 			// Param-paparam
 			window.Height = (NamesProp.Count + 4) * 70;
@@ -279,7 +241,8 @@ namespace PConfigure.Addition
 			grid.Children.Add(stackPanel);
 
 			window.Content = grid;
-			window.Title = "Add new VALUE";
+
+			InstanceWindow = window;
 		}
 		private static void SetControlEditValueToWindow(Type type, AddNewValueWindow window)
 		{
@@ -328,15 +291,17 @@ namespace PConfigure.Addition
 			tBox = new();
 
 			tBlock.Text = name;
-			tBlock.FontSize = 16;
-			tBlock.FontWeight = FontWeights.Bold;
+			tBlock.FontSize = 18;
+			tBlock.Foreground = Brushes.Black;
+			tBlock.FontWeight = FontWeights.DemiBold;
 			tBlock.HorizontalAlignment = HorizontalAlignment.Center;
 
 			tBox.Name = name;
 			tBox.TextAlignment = TextAlignment.Center;
-			tBox.BorderBrush = Brushes.DimGray;
+			tBox.BorderBrush = Brushes.DarkSeaGreen;
 			tBox.Margin = new(0, 10, 0, 10);
-			tBox.Height = 40;
+			tBox.FontWeight = FontWeights.Light;
+			tBox.FontSize = 18;
 			tBox.Width = 300;
 			tBox.HorizontalAlignment = HorizontalAlignment.Center;
 		}
@@ -346,17 +311,20 @@ namespace PConfigure.Addition
 			tBox = new();
 
 			tBlock.Text = name;
-			tBlock.FontSize = 16;
-			tBlock.FontWeight = FontWeights.Bold;
-			tBlock.VerticalAlignment = VerticalAlignment.Center;
+			tBlock.FontSize = 18;
+			tBlock.Foreground = Brushes.Black;
+			tBlock.FontWeight = FontWeights.DemiBold;
+			tBlock.HorizontalAlignment = HorizontalAlignment.Center;
 
 			tBox.Name = name;
 			tBox.Text = valueTextBox;
 			tBox.TextAlignment = TextAlignment.Center;
-			tBox.BorderBrush = Brushes.DimGray;
+			tBox.BorderBrush = Brushes.DarkSeaGreen;
 			tBox.Margin = new(0, 10, 0, 10);
-			tBox.Height = 40;
-			tBox.VerticalAlignment = VerticalAlignment.Center;
+			tBox.FontWeight = FontWeights.Light;
+			tBox.FontSize = 18;
+			tBox.Width = 300;
+			tBox.HorizontalAlignment = HorizontalAlignment.Center;
 		}
 
 		#endregion
