@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace PConfigure.ViewModel.MainWindowContentPageVM
 {
@@ -35,11 +36,11 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 
 			Cart.currentCartPage.ListItem.ItemsSource = CartM.GetCartItem(currentCart);
 
-			CatalogVM._selectItemCmd.Execute(CatalogVM.currentCatalogPage);
+			CatalogVM.SetCartList_Item();
 
 			Cart.currentCartPage.PriceTextBlock.Text = CartVM.CurrentCart.GetPrices().ToString();
 
-			new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive));
+			new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive), "Item deleted", Brushes.DarkOrange);
 		});
 
 
@@ -53,7 +54,7 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 
 		public RelayCommand DeleteItemFromCart { get => _deleteItemFromCartCmd; }
 
-		#region
+		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 

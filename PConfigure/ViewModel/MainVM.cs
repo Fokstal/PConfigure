@@ -2,28 +2,33 @@
 using PConfigure.View.MainWindowContentPage;
 using PConfigure.Model;
 using PConfigure.Addition;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System;
-using System.Threading;
-using PConfigure.ViewModel.MainWindowContentPageVM;
-using System.Threading.Tasks;
 
 namespace PConfigure.ViewModel
 {
 	class MainVM
 	{
-		#region Load Connect to DB
+		#region Command main
 
 		private RelayCommand _loadConnectToDBCmd = new(o =>
 		{
 			DataWorker.GetNameAllItem();
+
+			_showInformationPageCmd.Execute(o);
+		});
+		private readonly RelayCommand _exitWindowCmd = new(o =>
+		{
+			MainWindow mainWindow = o as MainWindow ?? new();
+
+			new StartupWindow().Show();
+
+			mainWindow.Close();
 		});
 
 		public RelayCommand LoadConnectToDBCmd { get => _loadConnectToDBCmd; set => _loadConnectToDBCmd = value; }
-
+		public RelayCommand ExitWindowCmd { get => _exitWindowCmd; }
 		#endregion
 
 
@@ -79,7 +84,7 @@ namespace PConfigure.ViewModel
 
 		#region Btn BurgerMenu VM
 
-		private readonly RelayCommand _showInformationPageCmd = new(o =>
+		private static readonly RelayCommand _showInformationPageCmd = new(o =>
 		{
 			MainWindow currentMainWindow = o as MainWindow ?? new MainWindow();
 

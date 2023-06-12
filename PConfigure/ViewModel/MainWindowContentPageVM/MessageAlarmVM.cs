@@ -62,6 +62,9 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 			messageAlarm.Left = currentWindow.Left + currentWindow.Width - messageAlarm.Width - 40;
 			messageAlarm.Top = currentWindow.Top + currentWindow.Height - messageAlarm.Height - 40;
 
+			messageAlarm.BellIcon.Foreground = colorBell;
+			messageAlarm.AlarmTextBlock.Text = message; 
+
 			messageAlarm.Show();
 
 			DispatcherTimer timer = new DispatcherTimer();

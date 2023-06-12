@@ -97,6 +97,7 @@ namespace PConfigure.Addition
 					textBox.BorderThickness = new(1.5);
 
 					listParam = new();
+					return;
 				}
 
 				l++;
@@ -149,7 +150,7 @@ namespace PConfigure.Addition
 			if (nameType == "AddNewValue_Memory") return new Data_Memory() 
 			{ Name = parameters[0].ToString(), Type = parameters[1].ToString(), CapacityMemory = Convert.ToInt32(parameters[2]), TypeConnect = parameters[3].ToString(), Speed = Convert.ToInt32(parameters[4]), Price = Convert.ToDouble(parameters[5]) };
 			if (nameType == "AddNewValue_Motherboard") return new Data_Motherboard() 
-			{ Name = parameters[0].ToString(), TypeATX = parameters[1].ToString(), Socket = parameters[2].ToString(), Chipset = parameters[3].ToString(), TypeDDR = parameters[4].ToString(), TypeGDDR = parameters[5].ToString(), CountSATA3 = Convert.ToInt32(parameters[6]), CountM2 = Convert.ToInt32(parameters[7]), Price = Convert.ToDouble(parameters[8]) };
+			{ Name = parameters[0].ToString(), TypeATX = parameters[1].ToString(), Socket = parameters[2].ToString(), Chipset = parameters[3].ToString(), TypeDDR = Convert.ToInt32(parameters[4]), TypeGDDR = Convert.ToInt32(parameters[5]), CountSATA3 = Convert.ToInt32(parameters[6]), CountM2 = Convert.ToInt32(parameters[7]), Price = Convert.ToDouble(parameters[8]) };
 			if (nameType == "AddNewValue_RAM") return new Data_RAM() 
 			{ Name = parameters[0].ToString(), Frequency = Convert.ToInt32(parameters[1]), TypeDDR = Convert.ToInt32(parameters[2]), CapacityMemory = Convert.ToInt32(parameters[3]), TDP = Convert.ToDouble(parameters[4]), Price = Convert.ToDouble(parameters[5]) };
 
@@ -202,7 +203,7 @@ namespace PConfigure.Addition
 			titleTextBlock.Margin = new(0, 0, 0, 5);
 			titleTextBlock.FontSize = 26;
 			titleTextBlock.Foreground = Brushes.GhostWhite;
-			titleTextBlock.Text = "Add " + type.Name.Replace("Data_", "");
+			titleTextBlock.Text = $"Add " + type.Name.Replace("Data_", "");
 
 			stackPanel.Children.Add(titleTextBlock);
 
@@ -220,7 +221,7 @@ namespace PConfigure.Addition
 			btnAdd.Width = 150;
 			btnAdd.Margin = new(0, 30, 0, 0);
 			btnAdd.FontWeight = FontWeights.Bold;
-			btnAdd.Content = "Add VALUE";
+			btnAdd.Content = $"Add VALUE";
 			btnAdd.Click += CurrentWindowButton_Click;
 			stackPanel.Children.Add(btnAdd);
 
@@ -247,16 +248,17 @@ namespace PConfigure.Addition
 		private static void SetControlEditValueToWindow(Type type, AddNewValueWindow window)
 		{
 			Grid grid = new();
-			grid.Background = Brushes.LightCyan;
+			grid.Background = Brushes.DimGray;
+			grid.Opacity = 0.9;
 
 			StackPanel stackPanel = new();
-			stackPanel.Orientation = Orientation.Horizontal;
 
 			TextBlock titleTextBlock = new();
 			titleTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
 			titleTextBlock.Margin = new(0, 0, 0, 5);
 			titleTextBlock.FontSize = 26;
-			titleTextBlock.Text = "Edit " + type.Name.Replace("Data_", "");
+			titleTextBlock.Foreground = Brushes.GhostWhite;
+			titleTextBlock.Text = $"Edit " + type.Name.Replace("Data_", "");
 
 			stackPanel.Children.Add(titleTextBlock);
 
@@ -269,20 +271,34 @@ namespace PConfigure.Addition
 			}
 
 			// Create Button and his ACTION
-			Button btn = new();
+			Button btnAdd = new();
 
-			btn.Width = 150;
-			btn.Content = "Edit VALUE";
-			btn.Click += CurrentWindowButton_Click;
-			stackPanel.Children.Add(btn);
+			btnAdd.Width = 150;
+			btnAdd.Margin = new(0, 30, 0, 0);
+			btnAdd.FontWeight = FontWeights.Bold;
+			btnAdd.Content = $"Edit VALUE";
+			btnAdd.Click += CurrentWindowButton_Click;
+			stackPanel.Children.Add(btnAdd);
+
+			Button btnClose = new();
+
+			btnClose.Width = 150;
+			btnClose.Margin = new(0, 30, 0, 0);
+			btnClose.Background = Brushes.LightCoral;
+			btnClose.BorderBrush = Brushes.LightCoral;
+			btnClose.FontWeight = FontWeights.Bold;
+			btnClose.Content = "Close";
+			btnClose.Click += CurrentWindowButton_ClickClose;
+			stackPanel.Children.Add(btnClose);
 
 			// Param-paparam
-			window.Width = (NamesProp.Count + 4) * 90;
-			window.Height = 100;
+			window.Height = (NamesProp.Count + 4) * 70;
+			window.Width = 400;
 			grid.Children.Add(stackPanel);
 
 			window.Content = grid;
-			window.Title = "Edit VALUE";
+
+			InstanceWindow = window;
 		}
 
 		private static void CreateControlsToAddNewValue(out TextBlock tBlock, out TextBox tBox, string name)

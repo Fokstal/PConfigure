@@ -35,7 +35,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="320" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -52,42 +52,7 @@
                 Sign in
             </TextBlock>
 
-            <WrapPanel Name="LoginStackPanel" Margin="0,10">
-
-                <TextBlock
-                    Width="100"
-                    Margin="80,0,55,5"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Foreground="#4A718C">
-                    Login
-                </TextBlock>
-
-                <TextBox
-                    x:Name="LoginTextBox"
-                    Width="140"
-                    Margin="80,0,60,0"
-                    HorizontalAlignment="Center"
-                    FontWeight="Black"
-                    MaxLength="15"
-                    Text="MC"
-                    TextAlignment="Center" />
-
-                <TextBlock
-                    Width="20"
-                    Height="20"
-                    Margin="0,0,0,0"
-                    HorizontalAlignment="Right"
-                    Background="Yellow"
-                    FontSize="16"
-                    TextAlignment="Center"
-                    Visibility="Hidden">
-                    !
-                </TextBlock>
-
-            </WrapPanel>
-
-            <WrapPanel Name="PasswordStackPanel" Margin="0,10">
+            <WrapPanel Name="PasswordStackPanel" Margin="0,20">
                 <TextBlock
                     Width="101"
                     Margin="80,0,55,5"
@@ -122,6 +87,7 @@
                     CommandParameter="{Binding ElementName=SignInCreatorPg}" />
 
                 <TextBlock
+                    x:Name="AlarmTextBlock"
                     Width="20"
                     Height="20"
                     Margin="34,0,0,0"
@@ -137,7 +103,7 @@
                 Width="80"
                 Background="#FF4B4B4B"
                 Command="{Binding SignInAccountCmd}"
-                CommandParameter="{Binding ElementName=PasswordBox}"
+                CommandParameter="{Binding ElementName=SignInCreatorPg}"
                 Content="Sign in"
                 FontSize="10"
                 Foreground="GhostWhite"

@@ -3,6 +3,9 @@ using System.Windows;
 using PConfigure.Model;
 using System.Windows.Controls;
 using PConfigure.Addition;
+using System.Windows.Threading;
+using System;
+using PConfigure.Model.ModelData;
 
 namespace PConfigure.ViewModel
 {
@@ -10,9 +13,8 @@ namespace PConfigure.ViewModel
 	{
 		#region SignIn VM
 
-		public static StartupWindowVM? currentStartupWindow;
+		public static StartupWindow? currentStartupWindow;
 
-		public static string? Login { get; set; }
 		public static string? Password { get; set; }
 
 
@@ -44,19 +46,40 @@ namespace PConfigure.ViewModel
 			}
 		});
 
-		// MC - 1
+		// NoName - passss <- LOGIN AND PASS
 		public static readonly RelayCommand signInAccount = new(o =>
 		{
-			PasswordBox currentPage = o as PasswordBox ?? new PasswordBox();
+			SignInCreatorPage currentPage = o as SignInCreatorPage ?? new();
 
 			string? resultStr = null;
 
-			string passwordFromPasswordBox = currentPage.Password ?? "";
-			string paasswordFromPasswordTextBox = Password ?? "";
+			string passwordFromPasswordBox = currentPage.PasswordBox.Password ?? "";
+			string passwordFromPasswordTextBox = Password ?? "";
 
-			string currentPassword = passwordFromPasswordBox.Length > paasswordFromPasswordTextBox.Length ? passwordFromPasswordBox : paasswordFromPasswordTextBox;
+			string currentPassword = passwordFromPasswordBox.Length > passwordFromPasswordTextBox.Length ? passwordFromPasswordBox : passwordFromPasswordTextBox;
 
-			AccountWorker.SignInAccout(out resultStr, "MC", currentPassword);
+			if (AccountWorker.SignInAccout(out resultStr, "NoName", currentPassword))
+			{
+				MainWindow mainWindow = new MainWindow();
+
+				mainWindow.AdminPanelTextBlock.Visibility = Visibility.Visible;
+				mainWindow.Show();
+
+				currentStartupWindow.Close();
+			}
+			else
+			{
+				currentPage.AlarmTextBlock.Visibility = Visibility.Visible;
+
+				DispatcherTimer timer = new DispatcherTimer();
+				timer.Interval = TimeSpan.FromSeconds(2);
+				timer.Tick += (sender, args) =>
+				{
+					timer.Stop();
+					currentPage.AlarmTextBlock.Visibility = Visibility.Hidden;
+				};
+				timer.Start();
+			}
 		});
 
 		public RelayCommand ChangeVisibilityPassCmd { get => _changeVisibilityPass; }

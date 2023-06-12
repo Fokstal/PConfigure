@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
 using PConfigure.Model.ModelData;
+using System.Windows.Media;
 
 namespace PConfigure.Addition
 {
@@ -57,8 +58,8 @@ namespace PConfigure.Addition
 
 		private static MenuItem AddItemToCart { get => ControlFromData.CreateMenuItem("Add to CART", _actionsContextMenu["Add to CART"]); }
 		private static MenuItem DeleteItemFromList { get => ControlFromData.CreateMenuItem("Delete ITEM", _actionsContextMenu["Delete ITEM"]); }
-		private static MenuItem AddItemToList {	get => ControlFromData.CreateMenuItemWithoutNofity("Add ITEM", _actionsContextMenu["Add ITEM"]);	}
-		private static MenuItem EditItemInList { get => ControlFromData.CreateMenuItemWithoutNofity("Edit ITEM", _actionsContextMenu["Edit ITEM"]); }
+		private static MenuItem AddItemToList {	get => ControlFromData.CreateMenuItem("Add ITEM", _actionsContextMenu["Add ITEM"]);	}
+		private static MenuItem EditItemInList { get => ControlFromData.CreateMenuItem("Edit ITEM", _actionsContextMenu["Edit ITEM"]); }
 
 
 		#region Action
@@ -83,9 +84,11 @@ namespace PConfigure.Addition
 
 					DataWorker.Cart = CartVM.CurrentCart;
 
-					CatalogVM._selectItemCmd.Execute(CatalogVM.currentCatalogPage);
+					CatalogVM.SetCartList_Item();
 
 					Cart.currentCartPage.PriceTextBlock.Text = CartVM.CurrentCart.GetPrices().ToString();
+
+					new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive), "Added to cart", Brushes.DarkOliveGreen);
 				}
 			}
 		}
@@ -98,6 +101,8 @@ namespace PConfigure.Addition
 			DataWorker.DeleteValue(focusedItem, out string resultStr);
 
 			AdminPanelVM._createContentOnTabControl.Execute(AdminPanelVM._instancePage);
+
+			new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive), "Item deleted", Brushes.Crimson);
 		}
 
 		private static void AddItem(object sender, EventArgs e)

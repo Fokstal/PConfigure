@@ -24,5 +24,5 @@ namespace PConfigure.View.MainWindowContentPage
 		{
 			InitializeComponent();
 		}
-	}
+    }
 }

@@ -24,12 +24,17 @@ namespace PConfigure.ViewModel
 				currentStartupWindow.ContinueBtn.Content = "Back";
 				currentStartupWindow.ContinueBtn.Command = backCmd;
 
+				SignInVM.currentStartupWindow = currentStartupWindow;
+
 				return;
 			}
 
 			if (choiceAccount == "1")
 			{
-				new MainWindow().Show();
+				MainWindow mainWindow = new MainWindow();
+
+				mainWindow.Show();
+
 				currentStartupWindow.Close();
 
 				return;

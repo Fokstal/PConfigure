@@ -72,19 +72,10 @@ namespace PConfigure.Addition
 			MenuItem menuItem = new MenuItem();
 			menuItem.Header = nameHeader;
 			menuItem.Click += new(action);
-			menuItem.Click += ReadyControls.InvokeNotify;
 
 			return menuItem;
 		}
 
-		public static MenuItem CreateMenuItemWithoutNofity(string nameHeader, Action<object, EventArgs> action)
-		{
-			MenuItem menuItem = new MenuItem();
-			menuItem.Header = nameHeader;
-			menuItem.Click += new(action);
-
-			return menuItem;
-		}
 		public static ContextMenu CreateContextMenu(List<MenuItem> menuItems)
 		{
 			ContextMenu contextMenu = new();

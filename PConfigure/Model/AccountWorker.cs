@@ -18,7 +18,7 @@ namespace PConfigure.Model
 			return false;
 		}
 
-		private static string Hash(string password)
+		public static string Hash(string password)
 		{
 			byte[] data = Encoding.Default.GetBytes(password);
 			SHA256 sha256 = new SHA256CryptoServiceProvider();
@@ -106,7 +106,7 @@ namespace PConfigure.Model
 
 			using (PConfigureContext db = new())
 			{
-				bool checkIsExist = db.Creators.Contains(value); ;
+				bool checkIsExist = db.Creators.Contains(value);
 
 				if (checkIsExist)
 				{

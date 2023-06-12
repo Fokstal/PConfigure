@@ -5,12 +5,14 @@
     xmlns:VM="clr-namespace:PConfigure.ViewModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PConfigure"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="StartupWnd"
-    Title="Startup window"
+    Title="PConfigure"
     Width="700"
     Height="560"
     Background="#383838"
+    Icon="/View/Database@2x.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
@@ -59,17 +61,20 @@
         <StackPanel Grid.Row="2">
 
             <Button
-                Width="30"
-                Height="30"
-                Margin="0,0,10,10"
+                Margin="10"
+                Padding="0"
                 HorizontalAlignment="Right"
-                Background="#662828"
+                VerticalAlignment="Bottom"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
                 Command="{Binding CloseWindowCmd}"
-                CommandParameter="{Binding ElementName=StartupWnd}"
-                Content="Exit"
-                FontSize="12"
-                IsCancel="True"
-                Style="{StaticResource ExitButtonStyle}" />
+                CommandParameter="{Binding ElementName=StartupWnd}">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="30"
+                    Foreground="IndianRed"
+                    Kind="Power" />
+            </Button>
 
         </StackPanel>
 

@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Media;
 using Microsoft.EntityFrameworkCore;
 using PConfigure.Data;
 using PConfigure.Model.ModelData;
+using PConfigure.ViewModel.MainWindowContentPageVM;
 
 namespace PConfigure.Model
 {
@@ -172,7 +175,9 @@ namespace PConfigure.Model
 				if (IsElementsAdd(lengthListsBefore, GetLengthAllListsFromDB()))
 				{
 					answer = "SUCCESS";
-					resultStr = $"Delete {nameType} is {answer}!";
+					resultStr = $"Add new {nameType} is {answer}!";
+
+					new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive), "Item added", Brushes.ForestGreen);
 
 					return true;
 				}
@@ -195,17 +200,26 @@ namespace PConfigure.Model
 
 			using (PConfigureContext db = new())
 			{
-				string nameItem = currentItem.GetType().GetProperty("Name")?.GetValue(currentItem)?.ToString() ?? "";
 				int[] lengthListsBefore = GetLengthAllListsFromDB();
 
 
 				DeleteValue(currentItem, out resultStr);
-				AddNewValue(newItem, out resultStr);
-
 
 				db.SaveChanges();
 			}
 
+			using (PConfigureContext db = new())
+			{
+
+				string nameItem = currentItem.GetType().GetProperty("Name")?.GetValue(currentItem)?.ToString() ?? "";
+				int[] lengthListsBefore = GetLengthAllListsFromDB();
+
+				AddNewValue(newItem, out resultStr);
+
+				db.SaveChanges();
+			}
+
+			new MessageAlarmVM().Open(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive), "Item changed", Brushes.CadetBlue);
 			resultStr = $"Edit {nameType} {answer}!";
 			return false;
 		}

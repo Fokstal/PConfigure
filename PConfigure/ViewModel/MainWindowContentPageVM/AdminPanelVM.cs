@@ -25,8 +25,6 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 			List<IEnumerable<object>> items = DataWorker.GetAllItemWithoutCart(out List<Type> typesItem);
 
 			ControlFromData.AddDataInTabControl(adminPanelPage.ContentTabControl, items, typesItem, ReadyControls.ContextMenuInAdminPanel);
-
-			ReadyControls.InvokeNotify(new(), new());
 		});
 
 		public RelayCommand CreateContentOnTabControl { get => _createContentOnTabControl; }

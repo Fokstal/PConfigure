@@ -41,25 +41,25 @@ namespace PConfigure.Model.ModelData
 		{
 			if (RAM is null) return true;
 
-			return "DDR" + RAM?.TypeDDR == motherboard.TypeDDR;
+			return RAM?.TypeDDR == motherboard.TypeDDR;
 		}
 		public bool CheckTypeDDR(Data_RAM ram)
 		{
 			if (Motherboard is null) return true;
 
-			return "DDR" + ram.TypeDDR == Motherboard?.TypeDDR;
+			return ram.TypeDDR == Motherboard?.TypeDDR;
 		}
 		public bool CheckTypeGDDR(Data_Motherboard motherboard)
 		{
 			if (GPU is null) return true;
 
-			return "GDDR" + GPU?.TypeGDDR == motherboard.TypeDDR;
+			return GPU?.TypeGDDR == motherboard.TypeGDDR;
 		}
 		public bool CheckTypeGDDR(Data_GPU gpu)
 		{
 			if (Motherboard is null) return true;
 
-			return "GDDR" + gpu.TypeGDDR == Motherboard?.TypeDDR;
+			return gpu.TypeGDDR == Motherboard?.TypeGDDR;
 		}
 		public bool CheckTypePower(Data_Blockpower blockpower)
 		{

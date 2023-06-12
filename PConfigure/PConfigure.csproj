@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="View\Database%402x.png" />
+    <None Remove="View\Logo.png" />
+    <None Remove="View\Logo_Bad.png" />
+    <None Remove="View\MainWindowContentPage\computer-hardware-2625895-5d9007ac0d44404588321d255fc82049.jpg" />
+    <None Remove="View\MainWindowContentPage\fit_960_530_false_crop_1280_720_0_120_q90_379422_4e564cd3af4e4922c00338d2b %281%29.png" />
+    <None Remove="View\MainWindowContentPage\images.jpg" />
     <None Remove="View\MainWindowContentPage\Logo_Bad.png" />
   </ItemGroup>
 
@@ -21,6 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="View\Database@2x.png" />
+    <Resource Include="View\Logo.png" />
+    <Resource Include="View\Logo_Bad.png" />
+    <Resource Include="View\MainWindowContentPage\computer-hardware-2625895-5d9007ac0d44404588321d255fc82049.jpg" />
+    <Resource Include="View\MainWindowContentPage\fit_960_530_false_crop_1280_720_0_120_q90_379422_4e564cd3af4e4922c00338d2b (1).png" />
+    <Resource Include="View\MainWindowContentPage\images.jpg" />
     <Resource Include="View\MainWindowContentPage\Logo_Bad.png" />
   </ItemGroup>
 
