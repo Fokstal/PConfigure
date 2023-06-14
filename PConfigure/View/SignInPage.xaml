@@ -107,6 +107,7 @@
                 Content="Sign in"
                 FontSize="10"
                 Foreground="GhostWhite"
+                IsDefault="True"
                 Style="{StaticResource MainButtonStyle}" />
 
         </StackPanel>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PConfigure.Model;
 using PConfigure.Model.ModelData;
+using System.Configuration.Provider;
 
 namespace PConfigure.Data
 {
@@ -21,7 +22,7 @@ namespace PConfigure.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=PConfigureDB; Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer(@"Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DataBase\PConfigureDB.mdf;Initial Catalog=PConfigureDB;Integrated Security=True");
 		}
 	}
 }

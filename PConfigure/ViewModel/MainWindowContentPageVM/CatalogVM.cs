@@ -231,11 +231,13 @@ namespace PConfigure.ViewModel.MainWindowContentPageVM
 
 				foreach (var e in resultList)
 				{
-					if (e.GetType().GetProperty(currentSearchType).GetValue(e).ToString().ToLower().Contains(searchBoxValue.ToLower()))
+					if (e.GetType().GetProperty(currentSearchType) is not null)
 					{
-						goodList.Add(e);
+						if (e.GetType().GetProperty(currentSearchType).GetValue(e).ToString().ToLower().Contains(searchBoxValue.ToLower()))
+						{
+							goodList.Add(e);
+						}
 					}
-
 				}
 
 				currentListView.ItemsSource = null;
