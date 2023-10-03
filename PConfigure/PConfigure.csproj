@@ -7,4 +7,33 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="View\Database%402x.png" />
+    <None Remove="View\Logo.png" />
+    <None Remove="View\Logo_Bad.png" />
+    <None Remove="View\MainWindowContentPage\computer-hardware-2625895-5d9007ac0d44404588321d255fc82049.jpg" />
+    <None Remove="View\MainWindowContentPage\fit_960_530_false_crop_1280_720_0_120_q90_379422_4e564cd3af4e4922c00338d2b %281%29.png" />
+    <None Remove="View\MainWindowContentPage\images.jpg" />
+    <None Remove="View\MainWindowContentPage\Logo_Bad.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Database@2x.png" />
+    <Resource Include="View\Logo.png" />
+    <Resource Include="View\Logo_Bad.png" />
+    <Resource Include="View\MainWindowContentPage\computer-hardware-2625895-5d9007ac0d44404588321d255fc82049.jpg" />
+    <Resource Include="View\MainWindowContentPage\fit_960_530_false_crop_1280_720_0_120_q90_379422_4e564cd3af4e4922c00338d2b (1).png" />
+    <Resource Include="View\MainWindowContentPage\images.jpg" />
+    <Resource Include="View\MainWindowContentPage\Logo_Bad.png" />
+  </ItemGroup>
+
 </Project>

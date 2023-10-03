@@ -1,0 +1,86 @@
+﻿<Page
+    x:Class="PConfigure.View.StartupPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VM="clr-namespace:PConfigure.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PConfigure.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="StartupPg"
+    Title="SingInPage"
+    d:DesignHeight="300"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <VM:StartupVM />
+    </Page.DataContext>
+
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+                        Storyboard.TargetName="StartupPg"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.5" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Page.Triggers>
+
+    <Grid>
+
+        <StackPanel VerticalAlignment="Center">
+
+            <TextBlock
+                Width="200"
+                Height="50"
+                VerticalAlignment="Top"
+                FontSize="24"
+                FontWeight="DemiBold"
+                Foreground="#FFFFFF"
+                TextAlignment="Center">
+                Select account
+            </TextBlock>
+
+            <Button
+                x:Name="SelectUserAccBtn"
+                Width="70"
+                Height="35"
+                Background="DarkSeaGreen"
+                BorderBrush="{x:Null}"
+                Command="{Binding SelectUserAccCmd}"
+                CommandParameter="{Binding ElementName=StartupPg}"
+                Content="User"
+                FontSize="16"
+                FontWeight="Bold" />
+
+            <Button
+                x:Name="SelectCreatorAccBtn"
+                Width="70"
+                Height="25"
+                Margin="0,10,0,0"
+                Padding="0"
+                Background="LightYellow"
+                BorderBrush="{x:Null}"
+                Command="{Binding SelectCreatorAccCmd}"
+                CommandParameter="{Binding ElementName=StartupPg}"
+                Content="Creator"
+                FontSize="10"
+                FontWeight="Bold" />
+
+            <CheckBox
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Command="{Binding CheckedRememberChoice}"
+                Content="Remember choice"
+                Foreground="#FFFFFF"
+                Visibility="Hidden" />
+
+        </StackPanel>
+
+    </Grid>
+</Page>

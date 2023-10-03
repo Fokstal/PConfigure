@@ -1,0 +1,186 @@
+﻿<Window
+    x:Class="PConfigure.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VM="clr-namespace:PConfigure.ViewModel"
+    xmlns:add="clr-namespace:PConfigure.Addition"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:PConfigure.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="MainWnd"
+    Title="PConfigure"
+    Width="1200"
+    Height="700"
+    Background="#383838"
+    Icon="/View/Database@2x.png"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <add:LeftMarginConverter x:Key="LMConverter" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <VM:MainVM />
+    </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                x:Name="null"
+                Command="{Binding LoadConnectToDBCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+
+        <Grid
+            x:Name="ContentGrid"
+            HorizontalAlignment="Center"
+            Focusable="True">
+
+            <TextBlock Padding="0">
+
+                <TextBlock.InputBindings>
+                    <MouseBinding
+                        Command="{Binding HideBurgerMenuCmd}"
+                        CommandParameter="{Binding ElementName=MainWnd}"
+                        Gesture="LeftClick" />
+                </TextBlock.InputBindings>
+
+                <Grid Width="1000">
+                    <Frame x:Name="ContentFrame" NavigationUIVisibility="Hidden" />
+                </Grid>
+            </TextBlock>
+
+        </Grid>
+
+        <Grid
+            x:Name="BurgerMenu"
+            Width="50"
+            HorizontalAlignment="Left"
+            Background="#F2272727">
+
+            <Button
+                x:Name="BurgerMenuBtn"
+                Width="30"
+                Height="30"
+                Margin="0,5"
+                VerticalAlignment="Top"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                Command="{Binding ExpendedBurgerMenuCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}"
+                FontSize="30"
+                FontWeight="ExtraBold"
+                Foreground="#223949"
+                RenderTransformOrigin="0.5,0.5"
+                Style="{x:Null}">
+
+                <Button.RenderTransform>
+                    <RotateTransform Angle="0" />
+                </Button.RenderTransform>
+
+                <StackPanel>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Width="26"
+                        Height="5"
+                        Margin="0,0,0,5"
+                        Background="#223949" />
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Height="5"
+                        Background="#223949" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Height="5"
+                        Margin="0,5,0,0"
+                        Background="#223949" />
+
+                </StackPanel>
+            </Button>
+
+            <StackPanel
+                x:Name="BtnListStackpanel"
+                Height="200"
+                HorizontalAlignment="Center"
+                Visibility="Hidden">
+                <Button
+                    x:Name="InformationTextBlock"
+                    BorderBrush="LightBlue"
+                    Command="{Binding ShowInformationPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Information"
+                    Style="{StaticResource BurgerMenuBtnStyle}" />
+
+                <Button
+                    x:Name="CatalogTextBlock"
+                    BorderBrush="LightYellow"
+                    Command="{Binding ShowCatalogPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Catalog"
+                    Style="{StaticResource BurgerMenuBtnStyle}" />
+
+                <Button
+                    x:Name="AdminPanelTextBlock"
+                    BorderBrush="LightCoral"
+                    Command="{Binding ShowAdminPanelPageCmd}"
+                    CommandParameter="{Binding ElementName=MainWnd}"
+                    Content="Admin panel"
+                    Style="{StaticResource BurgerMenuBtnStyle}"
+                    Visibility="Hidden" />
+
+            </StackPanel>
+
+            <Button
+                Width="30"
+                Height="30"
+                Margin="0,0,0,100"
+                VerticalAlignment="Bottom"
+                Command="{Binding OpenCartCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}"
+                Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}"
+                ToolTip="MaterialDesignFloatingActionSecondaryButton">
+                <materialDesign:PackIcon
+                    Width="15"
+                    Height="15"
+                    Foreground="PapayaWhip"
+                    Kind="Cart" />
+            </Button>
+
+            <Button
+                Margin="0,10"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                Command="{Binding ExitWindowCmd}"
+                CommandParameter="{Binding ElementName=MainWnd}">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="30"
+                    Foreground="IndianRed"
+                    Kind="Power" />
+            </Button>
+
+        </Grid>
+
+        <Frame
+            x:Name="CartFrame"
+            Width="0"
+            Height="300"
+            Margin="{Binding ElementName=BurgerMenu, Path=Width, Converter={StaticResource LMConverter}}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Source="MainWindowContentPage/CartPage.xaml" />
+
+    </Grid>
+</Window>
