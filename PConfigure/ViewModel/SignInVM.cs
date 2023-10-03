@@ -58,7 +58,7 @@ namespace PConfigure.ViewModel
 
 			string currentPassword = passwordFromPasswordBox.Length > passwordFromPasswordTextBox.Length ? passwordFromPasswordBox : passwordFromPasswordTextBox;
 
-			if (AccountWorker.SignInAccout(out resultStr, "NoName", currentPassword))
+			if (true)//AccountWorker.SignInAccout(out resultStr, "NoName", currentPassword))
 			{
 				MainWindow mainWindow = new MainWindow();
 
